@@ -35,22 +35,19 @@ public class OffersController {
 	@Autowired
 	private HttpSession httpSession;
 
-//	@RequestMapping("/offer/list")
-//	public String getList(Model model,Pageable pageable, Principal principal,
-//			@RequestParam(value = "", required = false) String searchText) {
-//		String dni = principal.getName(); // DNI es el name de la autenticación
-//		User user = usersService.getUserByEmail(dni);
-//		Page<Bid> offers = new PageImpl<Bid>(new LinkedList<Bid>());
-//		if (searchText != null && !searchText.isEmpty()) {
-//		offers = offersService
-//		.searchoffersByDescriptionAndNameForUser(pageable, searchText, user);
-//		} else {
-//		offers = offersService.getoffersForUser(pageable, user);
-//		}
-//		model.addAttribute("offerList", offers.getContent());
-//		model.addAttribute("page", offers);
-//		return "offer/list";
-//	}
+	@RequestMapping("/offer/list")
+	public String getList(Model model,Pageable pageable, Principal principal,
+			@RequestParam(value = "", required = false) String searchText) {
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
+		if (searchText != null && !searchText.isEmpty()) {
+		offers = offersService.searchOfferByDescriptionAndTitle(pageable, searchText);
+		} else {
+		offers = offersService.getAllOffers(pageable);
+		}
+		model.addAttribute("offerList", offers.getContent());
+		model.addAttribute("page", offers);
+		return "offer/list";
+	}
 
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
 	public String setoffer(@ModelAttribute Offer offer,Principal principal) {
@@ -111,14 +108,12 @@ public class OffersController {
 //		return "redirect:/offer/details/" + id;
 //	}
 
-//	@RequestMapping("/offer/list/update")
-//	public String updateList(Model model, Pageable pageable, Principal principal){
-//	String dni = principal.getName(); // DNI es el name de la autenticación
-//	User user = usersService.getUserByEmail(dni);
-//	Page<Bid> offers = offersService.getoffersForUser(pageable, user);
-//	model.addAttribute("offerList", offers.getContent() );
-//	return "offer/list :: tableoffers";
-//	}
+	@RequestMapping("/offer/list/update")
+	public String updateList(Model model, Pageable pageable, Principal principal){
+	Page<Offer> offers = offersService.getAllOffers(pageable);
+	model.addAttribute("offerList", offers.getContent() );
+	return "offer/list :: tableoffers";
+	}
 
 //	@RequestMapping(value = "/offer/{id}/resend", method = RequestMethod.GET)
 //	public String setResendTrue(Model model, @PathVariable Long id) {

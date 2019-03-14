@@ -50,6 +50,11 @@ public class OffersService {
 		offersRepository.deleteById(id);
 	}
 
+	public Page<Offer> getAllOffers(Pageable pageable)
+	{
+		return offersRepository.findAll(pageable);
+	}
+	
 //	public void setMarkResend(boolean revised, Long id) {
 //		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //		String dni = auth.getName();
@@ -60,6 +65,13 @@ public class OffersService {
 //
 //	}
 
+	public Page<Offer> searchOfferByDescriptionAndTitle(Pageable pageable, String searchText)
+	{
+		Page<Offer> marks = new PageImpl<Offer>(new LinkedList<Offer>());
+		searchText = "%" + searchText + "%";
+		return offersRepository.searchByDescriptionAndTitle(pageable, searchText);
+	}
+	
 	public List<Offer> getOffersForUser(User user) {
 		return offersRepository.findAllByUser(user);
 	}
