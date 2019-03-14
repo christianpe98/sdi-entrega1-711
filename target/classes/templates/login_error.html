@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<nav th:replace="fragments/nav" />
+	<div class="container" style="text-align: center">
+		<h2>Ha ocurrido un error durante el inicio de sesión</h2>
+		<section>
+		<p>Causas del posible error: </p>
+			<ul>
+				<li>El usuario es incorrecto</li>
+				<li>La contraseña es incorrecta</li>
+				<li>Usted no está registrado</li>
+			</ul>
+		</section>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

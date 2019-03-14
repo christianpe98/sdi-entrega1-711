@@ -1,5 +1,7 @@
 package com.uniovi.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,7 +37,19 @@ public class UsersController {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "user/list";
 	}
+	
+//	@RequestMapping(value="/user/delete",method = RequestMethod.POST)
+//	public String getListadoEliminar() {
+//		model.addAttribute("usersList", usersService.getUsers());
+//		return "user/delete";
+//	}
 
+	@RequestMapping("/user/delete")
+	public String getListadoEliminar(Model model) {
+		model.addAttribute("usersList", usersService.getUsers());
+		return "user/delete";
+	}
+	
 	@RequestMapping(value = "/user/add")
 	public String getUser(Model model) {
 		model.addAttribute("rolesList", rolesService.getRoles());
@@ -88,7 +102,7 @@ public class UsersController {
 		}
 		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
-		securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
+		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
 		return "redirect:home";
 	}
 
@@ -100,9 +114,15 @@ public class UsersController {
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String dni = auth.getName();
-		User activeUser = usersService.getUserByDni(dni);
-		model.addAttribute("markList", activeUser.getMarks());
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		model.addAttribute("offersList", activeUser.getOffers());
 		return "home";
 	}
+	
+	@RequestMapping(value = { "/login_error" }, method = RequestMethod.GET)
+	public String login_eror() {
+		return "login_error";
+	}
+	
 }

@@ -23,13 +23,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="mark : ${markList}">
-						<td th:text="${mark.id}">1</td>
-						<td th:text="${mark.description}">Ejercicio 1</td>
-						<td th:text="${mark.score}">10</td>
-						<td><a th:href="${'/mark/details/' + mark.id}">detalles</a></td>
-						<td><a th:href="${'/mark/edit/' + mark.id}">modificar</a></td>
-						<td><a th:href="${'/mark/delete/' + mark.id}">eliminar</a></td>
+					<tr th:each="offer : ${offersList}">
+						<td th:text="${offer.id}">1</td>
+						<td th:text="${offer.description}">Ejercicio 1</td>
+						<td th:text="${offer.price}">10</td>
+						<td><a th:href="${'/offer/details/' + offer.id}">detalles</a></td>
+						<td><a th:href="${'/offer/edit/' + offer.id}">modificar</a></td>
+						<td><a th:href="${'/offer/delete/' + offer.id}">eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>

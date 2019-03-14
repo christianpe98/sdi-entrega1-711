@@ -12,23 +12,39 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/home">Home</a></li>
-				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#"> Gestión de notas <span
+				<li id="offers-menu" class="dropdown" sec:authorize="hasRole('ROLE_NORMAL')">
+					<a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> Gestión de ofertas <span
 						class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li sec:authorize="hasRole('ROLE_PROFESSOR')"><a
-							href="/mark/add">Agregar Nota</a></li>
-						<li><a href="/mark/list">Ver Notas</a></li>
-					</ul></li>
+						<li><a
+							href="/offer/add">Agregar Oferta</a></li>
+						<li><a href="/offer/list">Ver Oferta</a></li>
+					</ul>
+					
+					</li>
+					<li id="personal-menu" class="dropdown" sec:authorize="hasRole('ROLE_NORMAL')">
+					<a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> Área personal <span
+						class="caret"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<li><a
+							href="/offer/my">Nuestras ofertas</a></li>
+						<li><a href="/offer/purchased">Ofertas adquiridas</a></li>
+					</ul>
+					
+					</li>
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#">
 						Gestión de Usuarios <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/user/add">Agregar usuario</a></li>
+<!-- 						<li><a href="/user/add">Agregar usuario</a></li> -->
 						<li><a href="/user/list">Ver Usuarios</a></li>
+						<li><a href="/user/delete">Eliminar usuarios</a></li>
 					</ul></li>
 
 			</ul>

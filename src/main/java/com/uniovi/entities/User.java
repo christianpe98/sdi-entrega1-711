@@ -9,23 +9,30 @@ public class User {
 	@Id
 	@GeneratedValue
 	private long id;
+	
 	@Column(unique = true)
-	private String dni;
+	private String email;
 	private String name;
 	private String lastName;
 	private String role;
+	
+	private double balance;
+	
+	private static final double INIT_MONEY=100;
+	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Mark> marks;
+	private Set<Offer> offers;
 
 	private String password;
 	@Transient // propiedad que no se almacena e la tabla.
 	private String passwordConfirm;
 
-	public User(String dni, String name, String lastName) {
+	public User(String email, String name, String lastName) {
 		super();
-		this.dni = dni;
+		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
+		this.balance=INIT_MONEY;
 	}
 
 	public User() {
@@ -39,12 +46,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getDni() {
-		return dni;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setDni(String dni) {
-		this.dni = dni;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getName() {
@@ -63,12 +70,12 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public void setMarks(Set<Mark> marks) {
-		this.marks = marks;
+	public void setOffers(Set<Offer> bids) {
+		this.offers = bids;
 	}
 
-	public Set<Mark> getMarks() {
-		return marks;
+	public Set<Offer> getOffers() {
+		return offers;
 	}
 
 	public String getFullName() {
@@ -99,6 +106,33 @@ public class User {
 		this.role = role;
 	}
 
+	public double getBalance() {
+		return balance;
+	}
+
+	private void setBalance(double balance) {
+		if(balance<0)
+		{
+			throw new IllegalArgumentException("El saldo no puede ser negativo");
+		}
+		this.balance = balance;
+	}
+	
+	public void incrementBalance(double money)
+	{
+		setBalance(this.balance+money);
+	}
+	
+	public void decrementBalance(double money)
+	{
+		setBalance(this.balance-money);
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", email=" + email + ", name=" + name + ", lastName=" + lastName + ", role=" + role
+				+ ", balance=" + balance + ", bids=" + offers + ", password=" + password + "]";
+	}
 	
 	
 }

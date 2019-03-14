@@ -6,12 +6,13 @@
 	<nav th:replace="fragments/nav" />
 	<div class="container">
 		<h2>Usuarios</h2>
-		<p>Los usuarios que actualmente figuran en el sistema son los
-			siguientes:</p>
+		<p>Seleccione los usuarios que desea eliminar:</p>
+		
 		<div class="table-responsive">
-			<table class="table table-hover">
+			<table class="table table-hover" >
 				<thead>
 					<tr>
+						<th></th>
 						<th>Email</th>
 						<th>Nombre</th>
 						<th>Apellidos</th>
@@ -24,13 +25,19 @@
 				</thead>
 				<tbody>
 					<tr th:each="user : ${usersList}">
+						<td><input type="checkbox" name="${user.id}" value=""></td>
 						<td th:text="${user.email}">71888888X</td>
 						<td th:text="${user.name}">Nombre del alumno</td>
 						<td th:text="${user.lastName}">Apellidos del alumno</td>
-						<td><a th:href="${'/user/details/' + user.id}">detalles</a></td>
 					</tr>
 				</tbody>
 			</table>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary">Eliminar</button>
+				</div>
+			</div>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />
