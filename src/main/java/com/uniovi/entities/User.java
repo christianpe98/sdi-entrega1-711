@@ -1,5 +1,6 @@
 package com.uniovi.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -22,6 +23,9 @@ public class User {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Offer> offers;
+	
+	@OneToMany(mappedBy = "purchaser")
+	private Set<Offer> offersPurchased;
 
 	private String password;
 	@Transient // propiedad que no se almacena e la tabla.
@@ -29,6 +33,8 @@ public class User {
 
 	public User(String email, String name, String lastName) {
 		super();
+		this.offers=new HashSet<Offer>();
+		this.offersPurchased=new HashSet<Offer>();
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
@@ -132,6 +138,14 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", name=" + name + ", lastName=" + lastName + ", role=" + role
 				+ ", balance=" + balance + ", bids=" + offers + ", password=" + password + "]";
+	}
+
+	public Set<Offer> getOffersPurchased() {
+		return offersPurchased;
+	}
+
+	public void setOffersPurchased(Set<Offer> offersPurchased) {
+		this.offersPurchased = offersPurchased;
 	}
 	
 	

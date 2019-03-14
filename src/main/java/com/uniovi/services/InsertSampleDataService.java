@@ -19,7 +19,7 @@ public class InsertSampleDataService {
 	@Autowired
 	private RolesService rolesService;
 	
-	//@PostConstruct
+	@PostConstruct
 	public void init() {
 		User user1 = new User("christian@email.com", "Christian", "Peláez");
 		user1.setPassword("123456");

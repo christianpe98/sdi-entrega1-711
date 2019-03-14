@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * @author Christian
+ *
+ */
 @Entity
 public class Offer {
 	
@@ -26,6 +30,10 @@ public class Offer {
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@ManyToOne
+	@JoinColumn(name = "puchaser_id")
+	private User purchaser;
+	
 	public Offer(String title, String description, Double price, User user) {
 		super();
 		this.description = description;
@@ -105,5 +113,14 @@ public class Offer {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public User getPurchaser() {
+		return purchaser;
+	}
+
+	public void setPurchaser(User purchaser) {
+		this.purchaser = purchaser;
+	}
+	
 	
 }

@@ -101,16 +101,23 @@ public class OffersController {
 
 	@RequestMapping(value = "/offer/{id}/purchase", method = RequestMethod.GET)
 	public String setResendTrue(Model model, @PathVariable Long id) {
-		System.out.println("COMPRAR");
 		offersService.setOfferPurchased(true, id);
 		return "redirect:/offer/list";
 	}
 
 	@RequestMapping(value = "/offer/{id}/nopurchase", method = RequestMethod.GET)
 	public String setResendFalse(Model model, @PathVariable Long id) {
-		System.out.println("CANCELAR COMPRA");
 		offersService.setOfferPurchased(false, id);
 		return "redirect:/offer/list";
+	}
+	
+	@RequestMapping("/offer/purchased")
+	public String getOffersPurchased(Model model,Principal principal) {
+		String email = principal.getName(); // DNI es el name de la autenticación
+		User user = usersService.getUserByEmail(email);
+		
+		model.addAttribute("offerList", user.getOffersPurchased() );
+		return "/offer/purchased";
 	}
 
 }

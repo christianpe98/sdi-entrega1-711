@@ -66,21 +66,17 @@ public class OffersService {
 		Offer offer = offersRepository.findById(id).get();
 		if(!user.equals(offer.getUser())) // un usuario no puede comprar su propia oferta
 		{
-			System.out.println("1");
 			if(offer.getPurchased()!=true) //no esta comprada
 			{
-				System.out.println("2");
 				if (user.getBalance()>=offer.getPrice()) { //el usuario tiene el diero
-					System.out.println("3");
 					if(purchase == true) //el usuario quiere comprar la oferta
 					{
-						System.out.println("4");
-						offersRepository.updatePurchase(purchase, id);
+						offersRepository.updatePurchase(purchase, id,user);
+						user.getOffersPurchased().add(offer);
 					}
 				}
 			}
-		}
-		
+		}		
 
 	}
 
