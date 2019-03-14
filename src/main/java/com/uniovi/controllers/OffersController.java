@@ -95,6 +95,12 @@ public class OffersController {
 		return "offer/edit";
 	}
 
+	@RequestMapping(value = "/offer/delete/{id}")
+	public String delete(@PathVariable Long id) {
+		offersService.deleteOffer(id);
+		return "redirect:/offer/my";
+	}
+	
 //	@RequestMapping(value = "/offer/edit/{id}", method = RequestMethod.POST)
 //	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute Offer offer) {
 //		Offer original = offersService.getOffer(id);

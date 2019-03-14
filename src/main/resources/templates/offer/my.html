@@ -28,6 +28,9 @@
 						<td th:text="${offer.title}">Botella de agua</td>
 						<td th:text="${offer.description}">La mejor botella de agua del mundo</td>
 						<td th:text="${offer.price}">500</td>
+						<td><a th:href="${'/offer/delete/' + offer.id}">eliminar</a></td>
+						
+						
 				</tbody>
 			</table>
 		</div>
