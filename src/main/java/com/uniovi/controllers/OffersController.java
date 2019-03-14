@@ -65,12 +65,6 @@ public class OffersController {
 		return "offer/details";
 	}
 
-//	@RequestMapping("/offer/delete/{id}")
-//	public String deleteoffer(@PathVariable Long id) {
-//		offersService.deleteOffer(id);
-//		return "redirect:/offer/list";
-//	}
-
 	@RequestMapping(value = "/offer/add")
 	public String getOffer(Model model) {
 		return "offer/add";
@@ -97,34 +91,26 @@ public class OffersController {
 		offersService.deleteOffer(id);
 		return "redirect:/offer/my";
 	}
-	
-//	@RequestMapping(value = "/offer/edit/{id}", method = RequestMethod.POST)
-//	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute Offer offer) {
-//		Offer original = offersService.getOffer(id);
-//		// modificar solo score y description
-//		original.setPrice(offer.getPrice());
-//		original.setDescription(offer.getDescription());
-//		offersService.addoffer(original);
-//		return "redirect:/offer/details/" + id;
-//	}
 
 	@RequestMapping("/offer/list/update")
 	public String updateList(Model model, Pageable pageable, Principal principal){
 	Page<Offer> offers = offersService.getAllOffers(pageable);
 	model.addAttribute("offerList", offers.getContent() );
-	return "offer/list :: tableoffers";
+	return "offer/list :: tableOffers";
 	}
 
-//	@RequestMapping(value = "/offer/{id}/resend", method = RequestMethod.GET)
-//	public String setResendTrue(Model model, @PathVariable Long id) {
-//		offersService.setofferResend(true, id);
-//		return "redirect:/offer/list";
-//	}
-//
-//	@RequestMapping(value = "/offer/{id}/noresend", method = RequestMethod.GET)
-//	public String setResendFalse(Model model, @PathVariable Long id) {
-//		offersService.setofferResend(false, id);
-//		return "redirect:/offer/list";
-//	}
+	@RequestMapping(value = "/offer/{id}/purchase", method = RequestMethod.GET)
+	public String setResendTrue(Model model, @PathVariable Long id) {
+		System.out.println("COMPRAR");
+		offersService.setOfferPurchased(true, id);
+		return "redirect:/offer/list";
+	}
+
+	@RequestMapping(value = "/offer/{id}/nopurchase", method = RequestMethod.GET)
+	public String setResendFalse(Model model, @PathVariable Long id) {
+		System.out.println("CANCELAR COMPRA");
+		offersService.setOfferPurchased(false, id);
+		return "redirect:/offer/list";
+	}
 
 }

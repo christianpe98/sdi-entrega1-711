@@ -28,6 +28,9 @@ public class OffersService {
 	private OffersRepository offersRepository;
 
 	@Autowired
+	private UsersService userService;
+	
+	@Autowired
 	private HttpSession httpSession;
 
 	public Offer getOffer(Long id) {
@@ -55,15 +58,31 @@ public class OffersService {
 		return offersRepository.findAll(pageable);
 	}
 	
-//	public void setMarkResend(boolean revised, Long id) {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		String dni = auth.getName();
-//		Bid mark = marksRepository.findById(id).get();
-//		if (mark.getUser().getEmail().equals(dni)) {
-//			marksRepository.updateResend(revised, id);
-//		}
-//
-//	}
+	public void setOfferPurchased(boolean purchase, Long id) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User user = userService.getUserByEmail(email);
+		Offer offer = offersRepository.findById(id).get();
+		if(!user.equals(offer.getUser())) // un usuario no puede comprar su propia oferta
+		{
+			System.out.println("1");
+			if(offer.getPurchased()!=true) //no esta comprada
+			{
+				System.out.println("2");
+				if (user.getBalance()>=offer.getPrice()) { //el usuario tiene el diero
+					System.out.println("3");
+					if(purchase == true) //el usuario quiere comprar la oferta
+					{
+						System.out.println("4");
+						offersRepository.updatePurchase(purchase, id);
+					}
+				}
+			}
+		}
+		
+
+	}
 
 	public Page<Offer> searchOfferByDescriptionAndTitle(Pageable pageable, String searchText)
 	{

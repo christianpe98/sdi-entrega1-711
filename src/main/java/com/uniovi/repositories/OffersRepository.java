@@ -15,11 +15,11 @@ import com.uniovi.entities.User;
 
 public interface OffersRepository extends CrudRepository<Offer,Long>{
 
-//	@Modifying
-//	@Transactional
-//	@Query("UPDATE Mark SET resend = ?1 WHERE id = ?2")
-//	void updateResend(Boolean resend, Long id);
-//	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Offer SET purchased = ?1 WHERE id = ?2")
+	void updatePurchase(Boolean resend, Long id);
+	
 	@Query("SELECT r FROM Offer r WHERE (LOWER(r.description) LIKE LOWER(?1) OR LOWER(r.title) LIKE LOWER(?1))")
 	Page<Offer> searchByDescriptionAndTitle(Pageable pageable, String seachtext);
 //			

@@ -28,13 +28,13 @@
  if (numberPage != null ){
  urlUpdate += "?page="+numberPage[0];
  }
- $("#tableoffers").load(urlUpdate);
+ $("#tableOffers").load(urlUpdate);
  });
 				/*]]>*/
  		</script>
 		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="tableOffer"
-				id="tableOffer">
+			<table class="table table-hover" th:fragment="tableOffers"
+				id="tableOffers">
 				<thead>
 					<tr>
 						<th class="col-md-1">id</th>
@@ -54,18 +54,18 @@
 						<td th:text="${offer.price} + '€'">10</td>
 						<td><div>
 							<div th:if="${offer.purchased}">
-								<button type="button" th:id="${'purchasedButton' + offer.id}"
-									class="btn btn-info">Comprar</button>
+								<button type="button" th:id="${'purchaseButton' + offer.id}"
+									class="btn btn-info">Vendida</button>
 								<script th:inline="javascript">
 									/*<![CDATA[*/
-									$("#purchasedButton[[${offer.id}]]").click(function() 
-												$.get("/offer/[[${offer.id}]]/no_purchased",function(data) {
+									$("#purchaseButton[[${offer.id}]]").click(function() 
+												$.get("/offer/[[${offer.id}]]/nopurchase",function(data) {
 													var numberPage = [[${param.page}]];
 													 var urlUpdate = '/offer/list/update';
 													 if ( numberPage != null ){
-													 urlUpdate += "?page="+numberPage[0];
+													 	urlUpdate += "?page="+numberPage[0];
 													 }
-													$("#tableOffer").load(urlUpdate);
+													$("#tableOffers").load(urlUpdate);
 
 																		});
 													});
@@ -73,27 +73,21 @@
 								</script>
 							</div>
 							<div th:unless="${offer.purchased}">
-								<button type="button" th:id="${'nopurchasedButton' + offer.id}"
-									class="btn btn-default">No reenviar</button>
+								<button type="button" th:id="${'nopurchaseButton' + offer.id}"
+									class="btn btn-default">Comprar</button>
 								<script th:inline="javascript">
 									/*<![CDATA[*/
-									$("#nopurchasedButton[[${offer.id}]]")
-											.click(
-													function() {
-														$
-																.get(
-																		"/offer/[[${offer.id}]]/purchased",
-																		function(
-																				data) {
-																			var numberPage = [[${param.page}]];
-																			 var urlUpdate = '/offer/list/update';
-																			 if ( numberPage != null ){
-																			 urlUpdate += "?page="+numberPage[0];
-																			 }
-																			$("#tableOffer").load(urlUpdate);
+									$("#nopurchaseButton[[${offer.id}]]").click(function() {
+										$.get("/offer/[[${offer.id}]]/purchase",function(data) {
+											var numberPage = [[${param.page}]];
+											 var urlUpdate = '/offer/list/update';
+											 if ( numberPage != null ){
+												urlUpdate += "?page="+numberPage[0];
+											}
+											$("#tableOffers").load(urlUpdate);
 
-																		});
-													});
+												});
+											});
 									/*]]>*/
 								</script>
 							</div></td>
