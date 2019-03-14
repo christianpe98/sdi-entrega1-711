@@ -41,7 +41,9 @@ public class InsertSampleDataService {
 		 user6.setRole(rolesService.getRoles()[1]);
 		Set user1Marks = new HashSet<Offer>() {
 			{
-				add(new Offer("A1","Oferta A1", 10.0, user1));
+				Offer oferta=new Offer("A1","Oferta A1", 10.0, user1);
+				oferta.setPurchased(true);
+				add(oferta);
 				add(new Offer("A2","Oferta A2", 9.0, user1));
 				add(new Offer("A3","Oferta A3", 7.0, user1));
 				add(new Offer("A4","Oferta A4", 6.5, user1));
