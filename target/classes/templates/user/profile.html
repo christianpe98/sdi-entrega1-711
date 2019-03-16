@@ -6,47 +6,51 @@
 		<h2 th:text="${user.name}+ ' '+${user.lastName} "></h2>
 		<div class="row">
 			<div class="col-md-6">
-				<h3> Detalles</h3>
+				<h3 th:text="#{profile.details}"> Detalles</h3>
 				<ul class="list-group">
-				<li class="list-group-item ">
-					Email: <b sec:authentication="principal.username" th:inline="text"></b>
+				<li class="list-group-item " >
+					<p th:text="#{profile.email}">Emails:</p>
+					 <b sec:authentication="principal.username" th:inline="text"></b>
 				
 				</li >
 				<li class="list-group-item">
-					Nombre: <b th:text="${user.name}"></b>
+					<p th:text="#{profile.name}">Nombre:</p>
+					 <b th:text="${user.name}"></b>
 				</li>
 				<li class="list-group-item ">
-					Apellidos: <b th:text="${user.lastName}"></b>
+					<p th:text="#{profile.lastname}">Apellidos:</p>
+					 <b th:text="${user.lastName}"></b>
 				</li>
 				<li class="list-group-item ">
-					Saldo: <b th:text="${user.balance}+' €'"></b>
+					<p th:text="#{profile.balance}">Saldo:</p>
+					<b th:text="${user.balance}+' €'"></b>
 				</li>
 				</ul>
 			</div>
 			
 				<div class="col-md-6">
-					<h3> Opciones</h3>
+					<h3 th:text="#{profile.options}"> Opciones</h3>
 						<ul class="list-group" sec:authorize="hasRole('ROLE_NORMAL')">
 							<li class="list-group-item">
-							  <a href="/offer/add" class="list-group-item list-group-item-action ">Crear oferta</a>
+							  <a href="/offer/add" class="list-group-item list-group-item-action" th:text="#{profile.add_offer}">Crear oferta</a>
 						  	</li>
 							  <li class="list-group-item ">
-							  <a href="/offer/list" class="list-group-item ">Ver ofertas disponibles</a>
+							  <a href="/offer/list" class="list-group-item" th:text="#{profile.view_offers}">Ver ofertas disponibles</a>
 						  	</li>
 						  	<li class="list-group-item ">
-							  <a href="/offer/my" class="list-group-item list-group-item-action">Ver tus ofertas</a>
+							  <a href="/offer/my" class="list-group-item list-group-item-action" th:text="#{profile.our_offers}">Ver tus ofertas</a>
 						  	</li>
 						  	<li class="list-group-item ">
-							  <a href="/offer/purchased" class="list-group-item list-group-item-action">Ver tus compras</a>
+							  <a href="/offer/purchased" class="list-group-item list-group-item-action" th:text="#{profile.purchased_offers}">Ver tus compras</a>
 						  	</li>
 						</ul>
 						
 						<ul class="list-group" sec:authorize="hasRole('ROLE_ADMIN')">
 							<li class="list-group-item">
-							  <a href="/user/list" class="list-group-item list-group-item-action ">Ver usuarios</a>
+							  <a href="/user/list" class="list-group-item list-group-item-action" th:text="#{profile.view_users}">Ver usuarios</a>
 						  	</li>
 							  <li class="list-group-item ">
-							  <a href="/user/delete" class="list-group-item ">Eliminar usuario</a>
+							  <a href="/user/delete" class="list-group-item " th:text="#{profile.delete_users}">Eliminar usuario</a>
 						  	</li>
 						</ul>
 				</div>

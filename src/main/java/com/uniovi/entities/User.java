@@ -42,6 +42,7 @@ public class User {
 	}
 
 	public User() {
+		this.balance=INIT_MONEY;
 	}
 
 	public long getId() {
