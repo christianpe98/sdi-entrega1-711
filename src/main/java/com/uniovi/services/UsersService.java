@@ -28,8 +28,14 @@ public class UsersService {
 	}
 
 	public void addUser(User user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		usersRepository.save(user);
+		if(user.getPassword().equals(user.getPasswordConfirm()))
+		{
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			usersRepository.save(user);
+		}
+		else {
+			System.out.println("contraseñas no coinciden");
+		}
 	}
 
 	public void deleteUser(Long id) {

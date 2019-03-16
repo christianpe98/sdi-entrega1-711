@@ -1,0 +1,59 @@
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<nav th:replace="fragments/nav" />
+	<div class="container" style="text-align: center">
+		<h2 th:text="${user.name}+ ' '+${user.lastName} "></h2>
+		<div class="row">
+			<div class="col-md-6">
+				<h3> Detalles</h3>
+				<ul class="list-group">
+				<li class="list-group-item ">
+					Email: <b sec:authentication="principal.username" th:inline="text"></b>
+				
+				</li >
+				<li class="list-group-item">
+					Nombre: <b th:text="${user.name}"></b>
+				</li>
+				<li class="list-group-item ">
+					Apellidos: <b th:text="${user.lastName}"></b>
+				</li>
+				<li class="list-group-item ">
+					Saldo: <b th:text="${user.balance}+' €'"></b>
+				</li>
+				</ul>
+			</div>
+			
+				<div class="col-md-6">
+					<h3> Opciones</h3>
+						<ul class="list-group" sec:authorize="hasRole('ROLE_NORMAL')">
+							<li class="list-group-item">
+							  <a href="/offer/add" class="list-group-item list-group-item-action ">Crear oferta</a>
+						  	</li>
+							  <li class="list-group-item ">
+							  <a href="/offer/list" class="list-group-item ">Ver ofertas disponibles</a>
+						  	</li>
+						  	<li class="list-group-item ">
+							  <a href="/offer/my" class="list-group-item list-group-item-action">Ver tus ofertas</a>
+						  	</li>
+						  	<li class="list-group-item ">
+							  <a href="/offer/purchased" class="list-group-item list-group-item-action">Ver tus compras</a>
+						  	</li>
+						</ul>
+						
+						<ul class="list-group" sec:authorize="hasRole('ROLE_ADMIN')">
+							<li class="list-group-item">
+							  <a href="/user/list" class="list-group-item list-group-item-action ">Ver usuarios</a>
+						  	</li>
+							  <li class="list-group-item ">
+							  <a href="/user/delete" class="list-group-item ">Eliminar usuario</a>
+						  	</li>
+						</ul>
+				</div>
+			</div>
+		
+		
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

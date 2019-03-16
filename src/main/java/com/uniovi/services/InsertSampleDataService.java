@@ -23,21 +23,27 @@ public class InsertSampleDataService {
 	public void init() {
 		User user1 = new User("christian@email.com", "Christian", "Peláez");
 		user1.setPassword("123456");
+		user1.setPasswordConfirm("123456");
 		user1.setRole(rolesService.getRoles()[0]);
 		User user2 = new User("cristina@email.com", "Cristina", "Ruíz");
 		user2.setPassword("123456");
+		user2.setPasswordConfirm("123456");
 		user2.setRole(rolesService.getRoles()[0]);
 		User user3 = new User("gema@email.com", "Gema", "Rico");
 		user3.setPassword("123456");
+		user3.setPasswordConfirm("123456");
 		user3.setRole(rolesService.getRoles()[0]);
 		User user4 = new User("noe@gmail.com", "Noe", "Fernandez");
 		user4.setPassword("123456");
+		user4.setPasswordConfirm("123456");
 		user4.setRole(rolesService.getRoles()[0]);
 		User user5 = new User("victoria@gmail.com", "Victoria", "Salinas");
 		user5.setPassword("123456");
+		user5.setPasswordConfirm("123456");
 		user5.setRole(rolesService.getRoles()[0]);
 		User user6 = new User("admin@email.com", "Edward", "Núñez");
 		 user6.setPassword("admin");
+		 user6.setPasswordConfirm("admin");
 		 user6.setRole(rolesService.getRoles()[1]);
 		Set user1Marks = new HashSet<Offer>() {
 			{

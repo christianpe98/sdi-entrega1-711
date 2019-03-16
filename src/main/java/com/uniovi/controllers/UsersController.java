@@ -1,5 +1,6 @@
 package com.uniovi.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,16 +39,30 @@ public class UsersController {
 		return "user/list";
 	}
 	
-//	@RequestMapping(value="/user/delete",method = RequestMethod.POST)
-//	public String getListadoEliminar() {
-//		model.addAttribute("usersList", usersService.getUsers());
-//		return "user/delete";
-//	}
+	
+	@RequestMapping("user/profile")
+	public String infoUser(Model model,Principal principal)
+	{
+		String email =principal.getName();
+		User user=usersService.getUserByEmail(email);
+		model.addAttribute("user",user);
+		return "user/profile";
+	}
 
 	@RequestMapping("/user/delete")
 	public String getListadoEliminar(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "user/delete";
+	}
+	
+	@RequestMapping(value="/user/delete",method=RequestMethod.POST)
+	public String getListadoEliminar(@RequestParam(value="checkedID", required=false) List<String> usersRemove) {
+		if (usersRemove != null) {
+		      for (String id : usersRemove) {
+		        this.usersService.deleteUser(Long.valueOf(Long.parseLong(id)));
+		      }
+		    }
+		return "redirect:/user/delete";
 	}
 	
 	@RequestMapping(value = "/user/add")
@@ -62,11 +77,11 @@ public class UsersController {
 		return "redirect:/user/list";
 	}
 
-	@RequestMapping("/user/details/{id}")
-	public String getDetail(Model model, @PathVariable Long id) {
-		model.addAttribute("user", usersService.getUser(id));
-		return "user/details";
-	}
+//	@RequestMapping("/user/details/{id}")
+//	public String getDetail(Model model, @PathVariable Long id) {
+//		model.addAttribute("user", usersService.getUser(id));
+//		return "user/details";
+//	}
 
 	@RequestMapping("/user/delete/{id}")
 	public String delete(@PathVariable Long id) {
@@ -81,12 +96,12 @@ public class UsersController {
 		return "user/edit";
 	}
 
-	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
-	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-		user.setId(id);
-		usersService.addUser(user);
-		return "redirect:/user/details/" + id;
-	}
+//	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
+//	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
+//		user.setId(id);
+//		usersService.addUser(user);
+//		return "redirect:/user/details/" + id;
+//	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {

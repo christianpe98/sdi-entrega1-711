@@ -7,77 +7,88 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<img src="/img/student-48.png" alt="logo" />
+			<img src="/img/tienda-online.png" alt="logo" id="logo" />
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/home">Home</a></li>
-				<li id="offers-menu" class="dropdown" sec:authorize="hasRole('ROLE_NORMAL')">
-					<a class="dropdown-toggle"
-					data-toggle="dropdown" href="#"> Gestión de ofertas <span
-						class="caret"></span>
+				<li id="offers-menu" class="dropdown"
+					sec:authorize="hasRole('ROLE_NORMAL')"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#">
+						Gestión de ofertas <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a
-							href="/offer/add">Agregar Oferta</a></li>
+						<li><a href="/offer/add">Agregar Oferta</a></li>
 						<li><a href="/offer/list">Ver Oferta</a></li>
-					</ul>
-					
-					</li>
-					<li id="personal-menu" class="dropdown" sec:authorize="hasRole('ROLE_NORMAL')">
-					<a class="dropdown-toggle"
-					data-toggle="dropdown" href="#"> Área personal <span
-						class="caret"></span>
+					</ul></li>
+				<li id="personal-menu" class="dropdown"
+					sec:authorize="hasRole('ROLE_NORMAL')"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#"> Área
+						personal <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a
-							href="/offer/my">Nuestras ofertas</a></li>
+						<li><a href="/offer/my">Nuestras ofertas</a></li>
 						<li><a href="/offer/purchased">Ofertas adquiridas</a></li>
-					</ul>
-					
-					</li>
+					</ul></li>
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#">
 						Gestión de Usuarios <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-<!-- 						<li><a href="/user/add">Agregar usuario</a></li> -->
+						<!-- 						<li><a href="/user/add">Agregar usuario</a></li> -->
 						<li><a href="/user/list">Ver Usuarios</a></li>
 						<li><a href="/user/delete">Eliminar usuarios</a></li>
-					</ul></li>
+					</ul>
+				</li>
+				
+				</ul>
 
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a id="btnLanguage" href="#"
-					class="dropdown-toggle" data-toggle="dropdown" role="button"
-					aria-haspopup="true" aria-expanded="false"> <span
-						th:text="#{language.change}"></span> <span class="caret"></span>
-				</a>
-					<ul id="languageDropdownMenuButton" class="dropdown-menu">
-						<li><a id="btnEnglish" value="EN"> <img
-								th:src="@{/img/if_uk_flag.png}"
-								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.en}">Inglés</span>
-						</a></li>
-						<li><a id="btnSpanish" value="ES"> <img
-								th:src="@{/img/if_spain_flag.png}"
-								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.es}">Español</span>
-						</a></li>
-					</ul></li>
-				<li sec:authorize="!isAuthenticated()"><a href="/signup"
-					th:text="#{signup.message}"> <span
-						class="glyphicon glyphicon-user"></span> Registrate
-				</a></li>
-				<li sec:authorize="!isAuthenticated()"><a href="/login"> <span
-						class="glyphicon glyphicon-log-in"></span> Identifícate
-				</a></li>
-				<li sec:authorize="isAuthenticated()"><a href="/logout"> <span
-						class="glyphicon glyphicon-log-out"></span> Desconectar
-				</a></li>
 
-			</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown"><a id="btnLanguage" href="#"
+						class="dropdown-toggle" data-toggle="dropdown" role="button"
+						aria-haspopup="true" aria-expanded="false"> <span
+							th:text="#{language.change}"></span> <span class="caret"></span>
+					</a>
+						<ul id="languageDropdownMenuButton" class="dropdown-menu">
+							<li><a id="btnEnglish" value="EN"> <img
+									th:src="@{/img/if_uk_flag.png}"
+									style="border: 0; float: left; margin-right: 15px" /> <span
+									th:text="#{language.en}">Inglés</span>
+							</a></li>
+							<li><a id="btnSpanish" value="ES"> <img
+									th:src="@{/img/if_spain_flag.png}"
+									style="border: 0; float: left; margin-right: 15px" /> <span
+									th:text="#{language.es}">Español</span>
+							</a></li>
+						</ul></li>
+					<li sec:authorize="!isAuthenticated()"><a href="/signup"
+						th:text="#{signup.message}"> <span
+							class="glyphicon glyphicon-user"></span> Registrate
+					</a></li>
+					<li sec:authorize="!isAuthenticated()"><a href="/login"> <span
+							class="glyphicon glyphicon-log-in"></span> Identifícate
+					</a></li>
+					
+					<ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
+					<li  id="perfil-menu" class="dropdown"><a
+						class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
+						<img src="/img/student-48.png" class="rounded-circle z-depth-0" alt="avatar image" />
+						<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu">
+							<li><a href="/user/profile">
+							 		 Perfil  </a></li>
+							<li>
+								<a href="/logout">
+							 		<span class="glyphicon glyphicon-log-out"></span> Desconectar  </a></li>
+						</ul>
+					</li>
+					<script>
+						
+						</script>
+				</ul>
 		</div>
 	</div>
 </nav>
