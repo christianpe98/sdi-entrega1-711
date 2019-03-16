@@ -19,7 +19,7 @@
 				</a>
 					<ul class="dropdown-menu">
 						<li><a href="/offer/add" th:text="#{nav.add_offer}">Agregar Oferta </a></li>
-						<li><a href="/offer/list" th:text="#{nav.view_ofer}"> Ver Oferta</a></li>
+						<li><a href="/offer/list" th:text="#{nav.view_offers}"> Ver Oferta</a></li>
 					</ul></li> 
 				<li id="personal-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_NORMAL')"><a
@@ -62,7 +62,7 @@
 									th:text="#{language.es}">Español</span>
 							</a></li>
 						</ul></li>
-					<li sec:authorize="!isAuthenticated()"><a href="/signup"
+					<li sec:authorize="!isAuthenticated()"><a id="btn_signUp" href="/signup"
 						th:text="#{signup.message}"> <span
 							class="glyphicon glyphicon-user"></span> Registrate
 					</a></li>
@@ -80,7 +80,7 @@
 							<li><a href="/user/profile">
 							 		 Perfil  </a></li>
 							<li>
-								<a href="/logout">
+								<a id="btn_logOut"href="/logout">
 							 		<span class="glyphicon glyphicon-log-out"></span> Desconectar  </a></li>
 						</ul>
 					</li>
