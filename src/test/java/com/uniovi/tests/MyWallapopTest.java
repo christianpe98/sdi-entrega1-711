@@ -4,8 +4,10 @@ import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.UsersService;
+import com.uniovi.tests.pageobjects.PO_AddOfferView;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_MyOffers;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
@@ -420,5 +422,120 @@ public class MyWallapopTest {
 			
 			assertTrue(numUsersView-1==PO_RemoveUsersView.numUsers(driver));
 		}
+		
+		// Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
+		//y dicho usuario desaparece
+				@Test
+				public void PR3_14(){
+					//Conseguir usuarios de la base de datos
+					List<User> usuariosAntes=usersService.getUsers();
+					
+					//Entramos como administrador
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "admin@email.com","admin");
+					
+					//Seleccionamos la gestión de usuarios
+					List<WebElement> elementosCheck = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+					elementosCheck.get(0).click();
+					
+					//Pinchamos en el botón ver lista de usuarios
+					elementosCheck = PO_View.checkElement(driver, "id", "btn_removeUsers");
+					elementosCheck.get(0).click();
+					
+					//conseguimos el usuario que vamos a borrar
+					int numUsersView=PO_RemoveUsersView.numUsers(driver);
+					
+					String emailBorar=PO_RemoveUsersView.getEmailUserByPos(driver, numUsersView-1);
+					User userBorrar=usersService.getUserByEmail(emailBorar);
+					
+					
+					
+					//Borramos la ultima posición
+					List<Integer> posicionesBorrar=new ArrayList<Integer>();
+					posicionesBorrar.add(numUsersView-1);
+					
+					PO_RemoveUsersView.removeUsers(driver,posicionesBorrar);
+					
+					List<User> usuariosDespues=usersService.getUsers();
+					
+					//EL usuario no esta en bbdd
+					assertFalse(usuariosDespues.contains(userBorrar));
+					
+					
+					assertTrue(usuariosAntes.size()-1==usuariosDespues.size());
+					
+					assertTrue(numUsersView-1==PO_RemoveUsersView.numUsers(driver));
+				}
+				
+				// Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
+				//usuarios desaparecen
+						@Test
+						public void PR3_15(){
+							//Conseguir usuarios de la base de datos
+							List<User> usuariosAntes=usersService.getUsers();
+							
+							//Entramos como administrador
+							PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+							PO_LoginView.fillForm(driver, "admin@email.com","admin");
+							
+							//Seleccionamos la gestión de usuarios
+							List<WebElement> elementosCheck = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+							elementosCheck.get(0).click();
+							
+							//Pinchamos en el botón ver lista de usuarios
+							elementosCheck = PO_View.checkElement(driver, "id", "btn_removeUsers");
+							elementosCheck.get(0).click();
+							
+							int numUsersView=PO_RemoveUsersView.numUsers(driver);
+							
+							//Borramos
+							List<Integer> posicionesBorrar=new ArrayList<Integer>();
+							posicionesBorrar.add(0);
+							posicionesBorrar.add(1);
+							posicionesBorrar.add(2);
+							PO_RemoveUsersView.removeUsers(driver,posicionesBorrar);
+							
+							List<User> usuariosDespues=usersService.getUsers();
+
+							
+							
+							assertTrue(usuariosAntes.size()-3==usuariosDespues.size());
+							
+							assertTrue(numUsersView-3==PO_RemoveUsersView.numUsers(driver));
+						}
+						
+				// Ir al formulario de alta de oferta, rellenarla con datos válidos y pulsar el botón Submit.
+				//Comprobar que la oferta sale en el listado de ofertas de dicho usuario
+				@Test
+				public void PR3_16(){
+					//Entramos como usuario
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos la gestión de usuarios
+					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de usuarios
+					elementos = PO_View.checkElement(driver, "id", "btn_addOffer");
+					elementos.get(0).click();
+					
+					PO_AddOfferView.fillForm(driver, "Botella", "Botella de agua", 500.17);
+					
+					//Seleccionamos la gestión de usuarios
+					elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'personal-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de usuarios
+					elementos = PO_View.checkElement(driver, "id", "btn_myOffers");
+					elementos.get(0).click();
+					
+					List<Offer> ofertas=PO_MyOffers.listMyOffers(driver);
+					
+					assertEquals(5, ofertas.size());//Inicializamos la bbdd con 4 ofertas, mas la añadida -> 5
+					assertEquals("Botella", ofertas.get(4).getTitle());
+					assertEquals("Botella de agua", ofertas.get(4).getDescription());
+					assertEquals("500.17", ofertas.get(4).getPrice().toString());
+				}
 		
 }

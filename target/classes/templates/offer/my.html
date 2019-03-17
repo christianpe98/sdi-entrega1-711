@@ -25,9 +25,9 @@
 				<tbody>
 					<tr th:each="offer : ${offerList}">
 						<td th:text="${offer.id}">1</td>
-						<td th:text="${offer.title}">Botella de agua</td>
-						<td th:text="${offer.description}">La mejor botella de agua del mundo</td>
-						<td th:text="${offer.price}">500</td>
+						<td th:text="${offer.title}" name="title_value">Botella de agua</td>
+						<td th:text="${offer.description}" name="description_value">La mejor botella de agua del mundo</td>
+						<td th:text="${offer.price}" name="price_value">500</td>
 						<td><a th:href="${'/offer/delete/' + offer.id}">eliminar</a></td>
 						
 						

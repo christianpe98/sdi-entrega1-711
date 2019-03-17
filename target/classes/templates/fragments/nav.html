@@ -18,7 +18,7 @@
 						   <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/offer/add" th:text="#{nav.add_offer}">Agregar Oferta </a></li>
+						<li><a id="btn_addOffer" href="/offer/add" th:text="#{nav.add_offer}">Agregar Oferta </a></li>
 						<li><a href="/offer/list" th:text="#{nav.view_offers}"> Ver Oferta</a></li>
 					</ul></li> 
 				<li id="personal-menu" class="dropdown"
@@ -27,7 +27,7 @@
 						personal</span>    <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/offer/my" th:text="#{nav.our_offers}"></a></li>
+						<li><a id="btn_myOffers" href="/offer/my" th:text="#{nav.our_offers}"></a></li>
 						<li><a href="/offer/purchased" th:text="#{nav.purchased_offers}"></a></li>
 					</ul></li>
 				<li id="users-menu" class="dropdown"
