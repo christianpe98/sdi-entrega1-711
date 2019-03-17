@@ -68,6 +68,7 @@ public class SeleniumUtils {
 		return elementos;					
 	}
 
+	
 	/**
 	 * Espera por la visibilidad de un elemento/s en la vista actualmente cargandose en driver. Para ello se empleará una consulta xpath 
 	 * según varios criterios..
@@ -91,21 +92,4 @@ public class SeleniumUtils {
 	}
 
 
-	/**
-	 * PROHIBIDO USARLO PARA VERSIÓN FINAL.
-	 * Esperar "segundos" durante la ejecucion del navegador 
-	 * @param driver: apuntando al navegador abierto actualmente.
-	 * @param segundos: Segundos de bloqueo de la ejecución en el navegador.
-	 */
-	static public void esperarSegundos(WebDriver driver, int segundos){
-
-		synchronized(driver){
-			try {
-				driver.wait(segundos * 1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 }

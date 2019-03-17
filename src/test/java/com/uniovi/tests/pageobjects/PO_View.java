@@ -2,8 +2,10 @@ package com.uniovi.tests.pageobjects;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -51,4 +53,12 @@ public class PO_View {
 		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, type, text, getTimeout());
 		return elementos;		
 	}
+	
+	static public boolean elementExists(WebDriver driver,String id)
+	{
+		new WebDriverWait(driver, timeout);
+		Boolean isPresent = driver.findElements(By.id("perfil-menu")).size() > 0;
+		return isPresent;
+	}
+	
 }

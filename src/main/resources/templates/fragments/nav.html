@@ -36,8 +36,8 @@
 						    <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="/user/list" th:text="#{nav.view_users}"> Ver Usuarios </a></li>
-						<li><a href="/user/delete" th:text="#{nav.delete_users}"> Eliminar usuarios </a></li>
+						<li><a id="btn_userlist" href="/user/list" th:text="#{nav.view_users}"> Ver Usuarios </a></li>
+						<li><a id="btn_removeUsers"href="/user/delete" th:text="#{nav.delete_users}"> Eliminar usuarios </a></li>
 					</ul>
 				</li>
 				
@@ -76,11 +76,12 @@
 						<span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
-							<li><a href="/user/profile">
-							 		 Perfil  </a></li>
+							<li><a href="/user/profile" ><span th:text="#{nav.profile}"> Perfil</span><span class="glyphicon glyphicon-user"></span>
+							 		   </a></li>
 							<li>
-								<a id="btn_logOut"href="/logout">
-							 		<span class="glyphicon glyphicon-log-out"></span> Desconectar  </a></li>
+								<a id="btn_logout" href="/logout" ><span th:text="#{nav.logout}">Desconectar</span>
+							 		<span class="glyphicon glyphicon-log-out"></span>   </a>
+							 		</li>
 						</ul>
 					</li>
 					<script>

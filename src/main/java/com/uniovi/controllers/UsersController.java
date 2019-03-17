@@ -56,7 +56,7 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value="/user/delete",method=RequestMethod.POST)
-	public String getListadoEliminar(@RequestParam(value="checkedID", required=false) List<String> usersRemove) {
+	public String getListadoEliminar(@RequestParam(value="check_value", required=false) List<String> usersRemove) {
 		if (usersRemove != null) {
 		      for (String id : usersRemove) {
 		        this.usersService.deleteUser(Long.valueOf(Long.parseLong(id)));
