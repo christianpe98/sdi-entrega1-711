@@ -7,11 +7,11 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<img src="/img/tienda-online.png" alt="logo" id="logo" />
+			<a href="/"> <img src="/img/tienda-online.png" alt="logo" id="logo" /> </a>
+			
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
-				<li><a href="/home" th:text="#{nav.home}"> Home </a></li>
 				<li id="offers-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_NORMAL')"><a
 					class="dropdown-toggle" data-toggle="dropdown" href="#"><span th:text="#{nav.offer_management}">Gestión de ofertas</span>
@@ -62,12 +62,11 @@
 									th:text="#{language.es}">Español</span>
 							</a></li>
 						</ul></li>
-					<li sec:authorize="!isAuthenticated()"><a id="btn_signUp" href="/signup"
-						th:text="#{signup.message}"> <span
-							class="glyphicon glyphicon-user"></span> Registrate
+					<li sec:authorize="!isAuthenticated()"><a id="btn_signUp" href="/signup"> <span th:text="#{nav.signup.message}">Registrate</span> <span
+							class="glyphicon glyphicon-user"></span> 
 					</a></li>
-					<li sec:authorize="!isAuthenticated()"><a href="/login"> <span
-							class="glyphicon glyphicon-log-in"></span> Identifícate
+					<li sec:authorize="!isAuthenticated()"><a href="/login" ><span th:text="#{nav.login.message}"> Identifícate</span> <span
+							class="glyphicon glyphicon-log-in"></span>
 					</a></li>
 					
 					<ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
