@@ -20,8 +20,8 @@ public class PO_NavView extends PO_View{
 		//CLickamos en la opción de registro y esperamos a que se cargue el enlace de Registro 
 		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href",textOption, getTimeout());
 		
-		//Tiene que haber un sólo elemento.
-		assertTrue(elementos.size()==1);
+		//Tiene que haber 2 elementos.
+		assertTrue(elementos.size()==2);
 		
 		//Ahora lo clickamos
 		elementos.get(0).click();

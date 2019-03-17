@@ -62,10 +62,10 @@
 									th:text="#{language.es}">Español</span>
 							</a></li>
 						</ul></li>
-					<li sec:authorize="!isAuthenticated()"><a id="btn_signUp" href="/signup"> <span th:text="#{nav.signup.message}">Registrate</span> <span
+					<li sec:authorize="!isAuthenticated()"><a id="btn_signUp_nav" href="/signup"> <span th:text="#{nav.signup.message}">Registrate</span> <span
 							class="glyphicon glyphicon-user"></span> 
 					</a></li>
-					<li sec:authorize="!isAuthenticated()"><a href="/login" ><span th:text="#{nav.login.message}"> Identifícate</span> <span
+					<li sec:authorize="!isAuthenticated()"><a href="/login" id="btn_login_nav"><span th:text="#{nav.login.message}"> Identifícate</span> <span
 							class="glyphicon glyphicon-log-in"></span>
 					</a></li>
 					
