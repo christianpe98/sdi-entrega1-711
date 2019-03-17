@@ -537,5 +537,38 @@ public class MyWallapopTest {
 					assertEquals("Botella de agua", ofertas.get(4).getDescription());
 					assertEquals("500.17", ofertas.get(4).getPrice().toString());
 				}
-		
+
+				//Ir al formulario de alta de oferta, rellenarla con datos inválidos (campo título vacío) y pulsar
+				//el botón Submit. Comprobar que se muestra el mensaje de campo obligatorio.
+				@Test
+				public void PR3_17(){
+					//Entramos como usuario
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos la gestión de usuarios
+					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de usuarios
+					elementos = PO_View.checkElement(driver, "id", "btn_addOffer");
+					elementos.get(0).click();
+					
+					PO_AddOfferView.fillForm(driver, " ", "Botella de agua", 500.17);
+					// COmprobamos el error del email vacío.
+					PO_AddOfferView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+					
+					//Seleccionamos la gestión de usuarios
+					elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'personal-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de usuarios
+					elementos = PO_View.checkElement(driver, "id", "btn_myOffers");
+					elementos.get(0).click();
+					
+					List<Offer> ofertas=PO_MyOffers.listMyOffers(driver);
+					
+					assertEquals(4, ofertas.size());//Inicializamos la bbdd con 4 ofertas
+					
+				}
 }

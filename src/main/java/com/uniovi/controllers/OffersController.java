@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.services.OffersService;
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.AddOfferFormValidator;
 
 @Controller
 public class OffersController {
@@ -32,6 +35,9 @@ public class OffersController {
 	@Autowired
 	private UsersService usersService;
 
+	@Autowired
+	private AddOfferFormValidator addValidator;
+	
 	@Autowired
 	private HttpSession httpSession;
 
@@ -50,7 +56,12 @@ public class OffersController {
 	}
 
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-	public String setoffer(@ModelAttribute Offer offer,Principal principal) {
+	public String setoffer(@Validated Offer offer, BindingResult result,Principal principal) {
+		addValidator.validate(offer, result);
+		if(result.hasErrors())
+		{
+			return "/offer/add";
+		}
 		String email = principal.getName(); // DNI es el name de la autenticación
 		User user = usersService.getUserByEmail(email);
 		offer.setUser(user);
@@ -67,6 +78,7 @@ public class OffersController {
 
 	@RequestMapping(value = "/offer/add")
 	public String getOffer(Model model) {
+		model.addAttribute("offer", new Offer());
 		return "offer/add";
 	}
 	
