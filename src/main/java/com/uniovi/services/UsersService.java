@@ -1,7 +1,6 @@
 package com.uniovi.services;
 
 import java.util.*;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,4 +44,9 @@ public class UsersService {
 	public User getUserByEmail(String email) {
 		return usersRepository.findByEmail(email);
 		}
+
+	public void update(User user1) {
+		usersRepository.save(user1);
+		
+	}
 }

@@ -1,28 +1,7 @@
 package com.uniovi.tests;
 
-import com.uniovi.entities.Offer;
-import com.uniovi.entities.User;
-import com.uniovi.services.OffersService;
-import com.uniovi.services.RolesService;
-import com.uniovi.services.UsersService;
-import com.uniovi.tests.pageobjects.PO_AddOfferView;
-import com.uniovi.tests.pageobjects.PO_HomeView;
-import com.uniovi.tests.pageobjects.PO_LoginView;
-import com.uniovi.tests.pageobjects.PO_MyOffers;
-import com.uniovi.tests.pageobjects.PO_NavView;
-import com.uniovi.tests.pageobjects.PO_Properties;
-import com.uniovi.tests.pageobjects.PO_RegisterView;
-import com.uniovi.tests.pageobjects.PO_RemoveUsersView;
-import com.uniovi.tests.pageobjects.PO_View;
-import com.uniovi.tests.pageobjects.PO_ViewOffers;
-import com.uniovi.tests.util.SeleniumUtils;
-import com.uniovi.repositories.UsersRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -43,10 +22,28 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.net.UrlChecker.TimeoutException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 //Ordenamos las pruebas por el nombre del método
+
+import com.uniovi.entities.Offer;
+import com.uniovi.entities.User;
+import com.uniovi.repositories.UsersRepository;
+import com.uniovi.services.OffersService;
+import com.uniovi.services.RolesService;
+import com.uniovi.services.UsersService;
+import com.uniovi.tests.pageobjects.PO_AddOfferView;
+import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_MyOffers;
+import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.tests.pageobjects.PO_Properties;
+import com.uniovi.tests.pageobjects.PO_RegisterView;
+import com.uniovi.tests.pageobjects.PO_RemoveUsersView;
+import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.pageobjects.PO_ViewOffers;
+import com.uniovi.tests.util.SeleniumUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringRunner.class)
@@ -92,10 +89,11 @@ public class MyWallapopTest {
 		driver.navigate().to(URL);
 	}
 
+	@SuppressWarnings("serial")
 	public void initdb() {
-		// Borramos todas las entidades.
+		//Borramos todas las entidades.
 		usersRepository.deleteAll();
-
+		
 		User user1 = new User("christian@email.com", "Christian", "Peláez");
 		user1.setPassword("123456");
 		user1.setPasswordConfirm("123456");
@@ -125,52 +123,137 @@ public class MyWallapopTest {
 		user6.setPassword("admin");
 		user6.setPasswordConfirm("admin");
 		user6.setRole(rolesService.getRoles()[1]);
-
-		Set user1Marks = new HashSet<Offer>() {
-			{
-				Offer oferta = new Offer("A1", "Oferta A1", 10.0, user1);
-				oferta.setPurchased(true);
-				add(oferta);
-				add(new Offer("A2", "Oferta A2", 9.0, user1));
-				add(new Offer("A3", "Oferta A3", 7.0, user1));
-				add(new Offer("A4", "Oferta A4", 6.5, user1));
-			}
-		};
-		user1.setOffers(user1Marks);
-		Set user2Marks = new HashSet<Offer>() {
-			{
-				add(new Offer("B1", "Oferta B1", 5.0, user2));
-				add(new Offer("B2", "Oferta B2", 4.3, user2));
-				add(new Offer("B3", "Oferta B3", 8.0, user2));
-				add(new Offer("B4", "Oferta B4", 3.5, user2));
-			}
-		};
-		user2.setOffers(user2Marks);
-		Set user3Marks = new HashSet<Offer>() {
-			{
-				;
-				add(new Offer("C1", "Oferta C1", 5.5, user3));
-				add(new Offer("C2", "Oferta C2", 6.6, user3));
-				add(new Offer("C3", "Oferta C3", 7.0, user3));
-			}
-		};
-		user3.setOffers(user3Marks);
-		Set user4Marks = new HashSet<Offer>() {
-			{
-				add(new Offer("D1", "Oferta D1", 10.0, user4));
-				add(new Offer("D2", "Oferta D2", 8.0, user4));
-				add(new Offer("D3", "Oferta D3", 9.0, user4));
-			}
-		};
-
-		user4.setOffers(user4Marks);
-
+		
 		usersService.addUser(user1);
 		usersService.addUser(user2);
 		usersService.addUser(user3);
 		usersService.addUser(user4);
 		usersService.addUser(user5);
 		usersService.addUser(user6);
+		
+		Offer CH1= new Offer("CH1", "Oferta CH1", 10.0, user1);
+		CH1.setPurchased(true);
+		Offer CH2=	new Offer("CH2", "Oferta CH2", 9.0, user1);
+		CH2.setPurchased(true);
+		Offer CH3=new Offer("CH3", "Oferta CH3", 7.0, user1);
+		Offer CH4=new Offer("CH4", "Oferta CH4", 6.5, user1);
+		Set<Offer> user1Marks = new HashSet<Offer>() {
+			{
+				add(CH1);
+				add(CH2);
+				add(CH3);
+				add(CH4);
+			}
+		};
+		user1.setOffers(user1Marks);
+		
+		Offer CR1=new Offer("CR1", "Oferta CR1", 5.0, user2);
+		CR1.setPurchased(true);
+		Offer CR2=new Offer("CR2", "Oferta CR2", 4.3, user2);
+		CR2.setPurchased(true);
+		Offer CR3=new Offer("CR3", "Oferta CR3", 8.0, user2);
+		Offer CR4=new Offer("CR4", "Oferta CR4", 3.5, user2);
+		Set<Offer> user2Marks = new HashSet<Offer>() {
+			{
+				add(CR1);
+				add(CR2);
+				add(CR3);
+				add(CR4);
+			}
+		};
+		
+		Offer GE1=new Offer("GE1", "Oferta GE1", 5.5, user3);
+		GE1.setPurchased(true);
+		Offer GE2=new Offer("GE2", "Oferta GE2", 6.6, user3);
+		GE2.setPurchased(true);
+		Offer GE3=new Offer("GE3", "Oferta GE3", 7.0, user3);
+		user2.setOffers(user2Marks);
+		Set<Offer> user3Marks = new HashSet<Offer>() {
+			{
+				;
+				add(GE1);
+				add(GE2);
+				add(GE3);
+			}
+		};
+		user3.setOffers(user3Marks);
+		
+			
+		Offer NO1=new Offer("NO1", "Oferta NO1", 10.0, user4);
+		NO1.setPurchased(true);
+		Offer NO2=new Offer("NO2", "Oferta NO2", 8.0, user4);
+		NO2.setPurchased(true);
+		Offer NO3=new Offer("NO3", "Oferta NO3", 9.0, user4);
+		Set<Offer> user4Marks = new HashSet<Offer>() {
+			{
+				add(NO1);
+				add(NO2);
+				add(NO3);
+			}
+		};
+
+		user4.setOffers(user4Marks);
+		
+		
+		Offer VI1=new Offer("VI1", "Oferta VI1", 10.0, user4);
+		VI1.setPurchased(true);
+		Offer VI2=new Offer("VI2", "Oferta VI2", 8.0, user4);
+		VI2.setPurchased(true);
+		Offer VI3=new Offer("VI3", "Oferta VI3", 9.0, user4);
+		Set<Offer> user5Marks = new HashSet<Offer>() {
+			{
+				add(VI1);
+				add(VI2);
+				add(VI3);
+			}
+		};
+		
+		usersService.update(user1);
+		usersService.update(user3);
+		usersService.update(user4);
+		usersService.update(user5);
+		usersService.update(user6);
+		
+		user5.setOffers(user5Marks);		
+		
+		user1.getOffersPurchased().add(CR1);
+		user1.getOffersPurchased().add(CR2);
+		user2.getOffersPurchased().add(GE1);
+		user2.getOffersPurchased().add(GE2);
+		user3.getOffersPurchased().add(NO1);
+		user3.getOffersPurchased().add(NO2);
+		user4.getOffersPurchased().add(VI1);
+		user4.getOffersPurchased().add(VI2);
+		user5.getOffersPurchased().add(CH1);
+		user5.getOffersPurchased().add(CH2);
+		
+		
+		
+		
+		CR1.setPurchaser(user1);
+		CR2.setPurchaser(user1);
+		offerService.update(CR1);
+		offerService.update(CR2);
+		
+		GE1.setPurchaser(user2);
+		GE2.setPurchaser(user2);
+		offerService.update(GE1);
+		offerService.update(GE2);
+		
+		NO1.setPurchaser(user3);
+		NO2.setPurchaser(user3);		
+		offerService.update(NO1);
+		offerService.update(NO2);
+		
+		VI1.setPurchaser(user4);
+		VI2.setPurchaser(user4);
+		offerService.update(VI1);
+		offerService.update(VI2);
+		
+		CH1.setPurchaser(user5);
+		CH2.setPurchaser(user5);
+		offerService.update(CH1);
+		offerService.update(CH2);
 	}
 
 	@After
@@ -424,7 +507,7 @@ public class MyWallapopTest {
 			assertFalse(usuariosDespues.contains(userBorrar));
 			
 			
-			assertTrue(usuariosAntes.size()-1==usuariosDespues.size());
+			assertEquals(usuariosAntes.size()-1,usuariosDespues.size());
 			
 			assertTrue(numUsersView-1==PO_RemoveUsersView.numUsers(driver));
 		}
@@ -538,10 +621,10 @@ public class MyWallapopTest {
 					
 					List<Offer> ofertas=PO_MyOffers.listMyOffers(driver);
 					
-					assertEquals(5, ofertas.size());//Inicializamos la bbdd con 4 ofertas, mas la añadida -> 5
-					assertEquals("Botella", ofertas.get(4).getTitle());
-					assertEquals("Botella de agua", ofertas.get(4).getDescription());
-					assertEquals("500.17", ofertas.get(4).getPrice().toString());
+					assertEquals(7, ofertas.size());
+					assertEquals("Botella", ofertas.get(6).getTitle());
+					assertEquals("Botella de agua", ofertas.get(6).getDescription());
+					assertEquals("500.17", ofertas.get(6).getPrice().toString());
 				}
 
 				//Ir al formulario de alta de oferta, rellenarla con datos inválidos (campo título vacío) y pulsar
@@ -574,7 +657,7 @@ public class MyWallapopTest {
 					
 					List<Offer> ofertas=PO_MyOffers.listMyOffers(driver);
 					
-					assertEquals(4, ofertas.size());//Inicializamos la bbdd con 4 ofertas
+					assertEquals(6, ofertas.size());//Inicializamos la bbdd con 6 ofertas
 				}
 				
 				//Mostrar el listado de ofertas para dicho usuario y comprobar que se muestran todas los que
@@ -751,6 +834,7 @@ public class MyWallapopTest {
 					assertTrue(elementos.get(0).getText()=="0.0");
 				}
 				
+				@SuppressWarnings("static-access")
 				@Test
 				public void PR10_27() {
 					PO_Properties prop=new PO_Properties("messages");
@@ -961,7 +1045,7 @@ public class MyWallapopTest {
 				PO_LoginView.fillForm(driver, "christian@email.com","123456");
 				driver.navigate().to(URL+"/user/list");
 				
-				SeleniumUtils.textoPresentePagina(driver,"HTTP Status 500 – Internal Server Error");
+				//SeleniumUtils.textoPresentePagina(driver,"HTTP Status 500 – Internal Server Error");
 				SeleniumUtils.textoPresentePagina(driver,"HTTP Status 403 – Forbidden");
 			}
 }

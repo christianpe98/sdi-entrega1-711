@@ -24,7 +24,7 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Offer> offers;
 	
-	@OneToMany(mappedBy = "purchaser")
+	@OneToMany(mappedBy = "purchaser", cascade = CascadeType.ALL)
 	private Set<Offer> offersPurchased;
 
 	private String password;

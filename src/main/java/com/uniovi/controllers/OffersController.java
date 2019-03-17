@@ -1,7 +1,8 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,16 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
-import com.uniovi.repositories.OffersRepository;
 import com.uniovi.services.OffersService;
 import com.uniovi.services.UsersService;
 import com.uniovi.validators.AddOfferFormValidator;
@@ -38,9 +36,7 @@ public class OffersController {
 
 	@Autowired
 	private AddOfferFormValidator addValidator;
-	
-	@Autowired
-	private HttpSession httpSession;
+
 
 	@RequestMapping("/offer/list")
 	public String getList(Model model,Pageable pageable, Principal principal,
@@ -109,9 +105,6 @@ public class OffersController {
 	@RequestMapping(value = "/offer/{id}/purchase", method = RequestMethod.GET)
 	public String setResendTrue(HttpSession session,Model model, @PathVariable Long id,Principal principal) {	
 		session.setAttribute("error_price", null);
-		String email = principal.getName(); // DNI es el name de la autenticación
-		User user = usersService.getUserByEmail(email);
-		Offer offer=offersService.getOffer(id);
 		offersService.setOfferPurchased(true, id);
 		return "redirect:/offer/list";
 	}
@@ -127,7 +120,7 @@ public class OffersController {
 	public String getOffersPurchased(Model model,Principal principal) {
 		String email = principal.getName(); // DNI es el name de la autenticación
 		User user = usersService.getUserByEmail(email);
-		
+		System.out.println(user.getOffersPurchased().size());
 		model.addAttribute("offerList", user.getOffersPurchased() );
 		return "/offer/purchased";
 	}

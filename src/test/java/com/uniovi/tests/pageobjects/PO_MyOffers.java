@@ -1,14 +1,11 @@
 package com.uniovi.tests.pageobjects;
 
-import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.sun.corba.se.impl.ior.NewObjectKeyTemplateBase;
 import com.uniovi.entities.Offer;
 
 public class PO_MyOffers extends PO_View{

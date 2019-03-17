@@ -1,17 +1,13 @@
 package com.uniovi.services;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +30,7 @@ public class OffersService {
 	private HttpSession httpSession;
 
 	public Offer getOffer(Long id) {
+		@SuppressWarnings("unchecked")
 		Set<Offer> consultedList = (Set<Offer>) httpSession.getAttribute("consultedList");
 		if (consultedList == null) {
 			consultedList = new HashSet<Offer>();
@@ -86,9 +83,13 @@ public class OffersService {
 
 	}
 
+	public void update(Offer oferta)
+	{
+		offersRepository.save(oferta);
+	}
+	
 	public Page<Offer> searchOfferByDescriptionAndTitle(Pageable pageable, String searchText)
 	{
-		Page<Offer> marks = new PageImpl<Offer>(new LinkedList<Offer>());
 		searchText = "%" + searchText + "%";
 		return offersRepository.searchByTitle(pageable, searchText);
 	}
@@ -96,22 +97,6 @@ public class OffersService {
 	public List<Offer> getOffersForUser(User user) {
 		return offersRepository.findAllByUser(user);
 	}
-//
-//	public Page<Bid> searchMarksByDescriptionAndNameForUser(Pageable pageable, String searchText, User user) {
-//		Page<Bid> marks = new PageImpl<Bid>(new LinkedList<Bid>());
-//		searchText = "%" + searchText + "%";
-//		if (user.getRole().equals("ROLE_STUDENT")) {
-//			marks = marksRepository.searchByDescriptionNameAndUser(pageable, searchText, user);
-//		}
-//		if (user.getRole().equals("ROLE_PROFESSOR")) {
-//			marks = marksRepository.searchByDescriptionAndName(pageable, searchText);
-//		}
-//		return marks;
-//	}
-//
-//	public Page<Bid> getMarks(Pageable pageable) {
-//		Page<Bid> marks = marksRepository.findAll(pageable);
-//		return marks;
-//	}
+
 
 }
