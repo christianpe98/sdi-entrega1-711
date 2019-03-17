@@ -15,6 +15,7 @@ import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_RemoveUsersView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.pageobjects.PO_ViewOffers;
+import com.uniovi.tests.util.SeleniumUtils;
 import com.uniovi.repositories.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -930,4 +931,37 @@ public class MyWallapopTest {
 						
 				}
 				
+				/*Intentar acceder sin estar autenticado a la opción de listado de usuarios del administrador. Se
+				deberá volver al formulario de login*/
+				@Test
+				public void P_28()
+				{
+					driver.navigate().to(URL+"/user/list");
+					
+					PO_LoginView.checkElement(driver, "id", "login_title");
+				}
+				
+				/*Intentar acceder sin estar autenticado a la opción de listado de ofertas propias de un usuario
+					estándar. Se deberá volver al formulario de login.*/
+				@Test
+				public void P_29()
+				{
+					driver.navigate().to(URL+"/offer/my");
+					
+					PO_LoginView.checkElement(driver, "id", "login_title");
+				}
+				
+				/*Intentar acceder sin estar autenticado a la opción de listado de ofertas propias de un usuario
+				estándar. Se deberá volver al formulario de login.*/
+			@Test
+			public void P_30()
+			{
+				//Entramos como usuario
+				PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+				PO_LoginView.fillForm(driver, "christian@email.com","123456");
+				driver.navigate().to(URL+"/user/list");
+				
+				SeleniumUtils.textoPresentePagina(driver,"HTTP Status 500 – Internal Server Error");
+				SeleniumUtils.textoPresentePagina(driver,"HTTP Status 403 – Forbidden");
+			}
 }
