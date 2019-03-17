@@ -33,4 +33,13 @@ public class PO_MyOffers extends PO_View{
 		return nuestrasOfertas;
 	}
 	
+	static public void removeOffer(WebDriver driver,int pos)
+	{
+		List<WebElement> elementos_remove=checkElement(driver, "@name", "remove_link");
+		if(pos>=0 && pos<elementos_remove.size())
+		{
+			elementos_remove.get(pos).click();
+		}
+	}
+	
 }

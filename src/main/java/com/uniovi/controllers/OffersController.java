@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
+import com.uniovi.repositories.OffersRepository;
 import com.uniovi.services.OffersService;
 import com.uniovi.services.UsersService;
 import com.uniovi.validators.AddOfferFormValidator;
@@ -92,12 +93,6 @@ public class OffersController {
 	}
 	
 
-	@RequestMapping(value = "/offer/edit/{id}")
-	public String getEdit(Model model, @PathVariable Long id) {
-		model.addAttribute("offer", offersService.getOffer(id));
-		return "offer/edit";
-	}
-
 	@RequestMapping(value = "/offer/delete/{id}")
 	public String delete(@PathVariable Long id) {
 		offersService.deleteOffer(id);
@@ -112,11 +107,16 @@ public class OffersController {
 	}
 
 	@RequestMapping(value = "/offer/{id}/purchase", method = RequestMethod.GET)
-	public String setResendTrue(Model model, @PathVariable Long id) {
+	public String setResendTrue(HttpSession session,Model model, @PathVariable Long id,Principal principal) {	
+		session.setAttribute("error_price", null);
+		String email = principal.getName(); // DNI es el name de la autenticación
+		User user = usersService.getUserByEmail(email);
+		Offer offer=offersService.getOffer(id);
 		offersService.setOfferPurchased(true, id);
 		return "redirect:/offer/list";
 	}
-
+	
+	
 	@RequestMapping(value = "/offer/{id}/nopurchase", method = RequestMethod.GET)
 	public String setResendFalse(Model model, @PathVariable Long id) {
 		offersService.setOfferPurchased(false, id);

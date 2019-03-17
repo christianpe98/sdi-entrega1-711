@@ -22,8 +22,8 @@
 					 <b th:text="${user.lastName}"></b>
 				</li>
 				<li class="list-group-item ">
-					<p th:text="#{profile.balance}">Saldo:</p>
-					<b th:text="${user.balance}+' €'"></b>
+					<p  th:text="#{profile.balance}">Saldo:</p>
+					<b id="saldo_value" th:text="${user.balance}+' €'"></b>
 				</li>
 				</ul>
 			</div>

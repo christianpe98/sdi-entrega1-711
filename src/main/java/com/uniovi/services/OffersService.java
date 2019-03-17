@@ -58,6 +58,11 @@ public class OffersService {
 		return offersRepository.findAll(pageable);
 	}
 	
+	public List<Offer> getAllOffers()
+	{
+		return offersRepository.findAll();
+	}
+	
 	public void setOfferPurchased(boolean purchase, Long id) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -68,9 +73,10 @@ public class OffersService {
 		{
 			if(offer.getPurchased()!=true) //no esta comprada
 			{
-				if (user.getBalance()>=offer.getPrice()) { //el usuario tiene el diero
+				if (user.getBalance()>=offer.getPrice()) { //el usuario tiene el dinero
 					if(purchase == true) //el usuario quiere comprar la oferta
 					{
+						user.decrementBalance(offer.getPrice());
 						offersRepository.updatePurchase(purchase, id,user);
 						user.getOffersPurchased().add(offer);
 					}
@@ -84,7 +90,7 @@ public class OffersService {
 	{
 		Page<Offer> marks = new PageImpl<Offer>(new LinkedList<Offer>());
 		searchText = "%" + searchText + "%";
-		return offersRepository.searchByDescriptionAndTitle(pageable, searchText);
+		return offersRepository.searchByTitle(pageable, searchText);
 	}
 	
 	public List<Offer> getOffersForUser(User user) {

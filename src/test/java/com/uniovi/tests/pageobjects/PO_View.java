@@ -57,7 +57,14 @@ public class PO_View {
 	static public boolean elementExists(WebDriver driver,String id)
 	{
 		new WebDriverWait(driver, timeout);
-		Boolean isPresent = driver.findElements(By.id("perfil-menu")).size() > 0;
+		Boolean isPresent = driver.findElements(By.id(id)).size() > 0;
+		return isPresent;
+	}
+	
+	static public boolean elementExistsName(WebDriver driver,String name)
+	{
+		new WebDriverWait(driver, timeout);
+		Boolean isPresent = driver.findElements(By.name(name)).size() > 0;
 		return isPresent;
 	}
 	

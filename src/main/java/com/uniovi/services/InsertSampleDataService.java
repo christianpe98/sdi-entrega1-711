@@ -50,17 +50,17 @@ public class InsertSampleDataService {
 				Offer oferta=new Offer("A1","Oferta A1", 10.0, user1);
 				oferta.setPurchased(true);
 				add(oferta);
-				add(new Offer("A2","Oferta A2", 9.0, user1));
-				add(new Offer("A3","Oferta A3", 7.0, user1));
+				add(new Offer("A2","Oferta A2", 99.0, user1));
+				add(new Offer("A3","Oferta A3", 777.0, user1));
 				add(new Offer("A4","Oferta A4", 6.5, user1));
 			}
 		};
 		user1.setOffers(user1Marks);
 		Set user2Marks = new HashSet<Offer>() {
 			{
-				add(new Offer("B1","Oferta B1", 5.0, user2));
-				add(new Offer("B2","Oferta B2", 4.3, user2));
-				add(new Offer("B3","Oferta B3", 8.0, user2));
+				add(new Offer("B1","Oferta B1", 99.0, user2));
+				add(new Offer("B2","Oferta B2", 444.3, user2));
+				add(new Offer("B3","Oferta B3", 100.0, user2));
 				add(new Offer("B4","Oferta B4", 3.5, user2));
 			}
 		};

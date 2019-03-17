@@ -19,7 +19,7 @@
 				</a>
 					<ul class="dropdown-menu">
 						<li><a id="btn_addOffer" href="/offer/add" th:text="#{nav.add_offer}">Agregar Oferta </a></li>
-						<li><a href="/offer/list" th:text="#{nav.view_offers}"> Ver Oferta</a></li>
+						<li><a id="btn_viewOffers" href="/offer/list" th:text="#{nav.view_offers}"> Ver Oferta</a></li>
 					</ul></li> 
 				<li id="personal-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_NORMAL')"><a
@@ -70,13 +70,13 @@
 					</a></li>
 					
 					<ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
-					<li  id="perfil-menu" class="dropdown"><a
+					<li  id="profile-menu" class="dropdown"><a
 						class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
 						<img src="/img/student-48.png" class="rounded-circle z-depth-0" alt="avatar image" />
 						<span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
-							<li><a href="/user/profile" ><span th:text="#{nav.profile}"> Perfil</span><span class="glyphicon glyphicon-user"></span>
+							<li><a id="btn_profile" href="/user/profile" ><span th:text="#{nav.profile}"> Perfil</span><span class="glyphicon glyphicon-user"></span>
 							 		   </a></li>
 							<li>
 								<a id="btn_logout" href="/logout" ><span th:text="#{nav.logout}">Desconectar</span>

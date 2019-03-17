@@ -7,16 +7,16 @@
 
 
 	<div class="container">
-		<h2>Nuestras ofertas</h2>
+		<h2 th:text="#{personal.my_offers.title}">Mis ofertas</h2>
 
 		<div class="table-responsive">
 			<table class="table table-hover" id="tableMarks">
 				<thead>
 					<tr>
-						<th class="col-md-1">id</th>
-						<th>Titulo</th>
-						<th>Descripción</th>
-						<th>Precio</th>
+						<th th:text="#{table.offers.field.id}" class="col-md-1">id</th>
+						<th th:text="#{table.offers.field.title}">Titulo</th>
+						<th th:text="#{table.offers.field.description}">Descripción</th>
+						<th th:text="#{table.offers.field.price}">Precio</th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
@@ -28,7 +28,7 @@
 						<td th:text="${offer.title}" name="title_value">Botella de agua</td>
 						<td th:text="${offer.description}" name="description_value">La mejor botella de agua del mundo</td>
 						<td th:text="${offer.price}" name="price_value">500</td>
-						<td><a th:href="${'/offer/delete/' + offer.id}">eliminar</a></td>
+						<td><a th:text="#{personal.my_offers.btn_delete}" th:href="${'/offer/delete/' + offer.id}" name="remove_link">eliminar</a></td>
 						
 						
 				</tbody>

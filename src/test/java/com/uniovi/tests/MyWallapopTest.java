@@ -2,6 +2,7 @@ package com.uniovi.tests;
 
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
+import com.uniovi.services.OffersService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.UsersService;
 import com.uniovi.tests.pageobjects.PO_AddOfferView;
@@ -13,6 +14,7 @@ import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_RemoveUsersView;
 import com.uniovi.tests.pageobjects.PO_View;
+import com.uniovi.tests.pageobjects.PO_ViewOffers;
 import com.uniovi.repositories.UsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +72,9 @@ public class MyWallapopTest {
 	private UsersService usersService;
 	@Autowired
 	private RolesService rolesService;
+	@Autowired
+	private OffersService offerService;
+	
 	@Autowired
 	private UsersRepository usersRepository;
 
@@ -325,7 +330,7 @@ public class MyWallapopTest {
 			PO_LoginView.fillForm(driver, "christian@email.com","123456");
 			
 			// Pinchamos en la opción del menú del perfil del usuario
-			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'perfil-menu')]/a");
+			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'profile-menu')]/a");
 			elementos.get(0).click();
 			
 			//Pinchamos en el botón desconectar
@@ -569,6 +574,360 @@ public class MyWallapopTest {
 					List<Offer> ofertas=PO_MyOffers.listMyOffers(driver);
 					
 					assertEquals(4, ofertas.size());//Inicializamos la bbdd con 4 ofertas
+				}
+				
+				//Mostrar el listado de ofertas para dicho usuario y comprobar que se muestran todas los que
+				//existen para este usuario
+				@Test
+				public void PR3_18(){
+					//Entramos como usuario
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'personal-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de usuarios
+					elementos = PO_View.checkElement(driver, "id", "btn_myOffers");
+					elementos.get(0).click();
+					
+					//Obtenemos las ofertas que se ven en la vista
+					List<Offer> ofertasVista=PO_MyOffers.listMyOffers(driver);
+					
+					List<Offer> ofertasBBDD=offerService.getOffersForUser(usersService.getUserByEmail("christian@email.com"));
+					
+					
+					assertEquals(ofertasBBDD.size(), ofertasVista.size());//Inicializamos la bbdd con 4 ofertas
+				}
+				
+				//Ir a la lista de ofertas, borrar la primera oferta de la lista, comprobar que la lista se actualiza y
+				//que la oferta desaparece
+				@Test
+				public void PR8_19()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'personal-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de usuarios
+					elementos = PO_View.checkElement(driver, "id", "btn_myOffers");
+					elementos.get(0).click();
+					
+					//Obtenemos las ofertas que se ven en la vista antes de borrar
+					List<Offer> ofertasVistaAntes=PO_MyOffers.listMyOffers(driver);
+					
+					PO_MyOffers.removeOffer(driver, 0);
+					
+					//Obtenemos las ofertas que se ven en la vista antes de borrar
+					List<Offer> ofertasVistaDespues=PO_MyOffers.listMyOffers(driver);
+					List<Offer> ofertasBBDD=offerService.getOffersForUser(usersService.getUserByEmail("christian@email.com"));
+					
+					assertEquals(ofertasVistaAntes.size()-1,ofertasVistaDespues.size());
+					assertEquals(ofertasVistaDespues.size(), ofertasBBDD.size());
+					assertFalse(ofertasBBDD.contains(ofertasVistaAntes.get(0)));
+				}
+				
+				//Ir a la lista de ofertas, borrar la última oferta de la lista, comprobar que la lista se actualiza y
+				//que la oferta desaparece
+				@Test
+				public void PR8_20()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'personal-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de usuarios
+					elementos = PO_View.checkElement(driver, "id", "btn_myOffers");
+					elementos.get(0).click();
+					
+					//Obtenemos las ofertas que se ven en la vista antes de borrar
+					List<Offer> ofertasVistaAntes=PO_MyOffers.listMyOffers(driver);
+					
+					PO_MyOffers.removeOffer(driver, ofertasVistaAntes.size()-1);
+					
+					//Obtenemos las ofertas que se ven en la vista antes de borrar
+					List<Offer> ofertasVistaDespues=PO_MyOffers.listMyOffers(driver);
+					List<Offer> ofertasBBDD=offerService.getOffersForUser(usersService.getUserByEmail("christian@email.com"));
+					
+					assertEquals(ofertasVistaAntes.size()-1,ofertasVistaDespues.size());
+					assertEquals(ofertasVistaDespues.size(), ofertasBBDD.size());
+					assertFalse(ofertasBBDD.contains(ofertasVistaAntes.get(ofertasVistaAntes.size()-1)));
+				}
+				
+				//Hacer una búsqueda con el campo vacío y comprobar que se muestra la página que
+				//corresponde con el listado de las ofertas existentes en el sistema
+				@Test
+				public void PR9_21()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de ofertas disponibles
+					elementos = PO_View.checkElement(driver, "id", "btn_viewOffers");
+					elementos.get(0).click();
+					
+					PO_ViewOffers.search(driver, "");
+					List<String> nombreOfertas=PO_ViewOffers.listNameOffers(driver);
+					List<Offer> ofertasBBDD=offerService.getAllOffers();
+					
+					assertEquals(nombreOfertas.size(),ofertasBBDD.size());
+					List<String> nombresBBD=new ArrayList<String>();
+					for(Offer oferta:ofertasBBDD)
+					{
+						nombresBBD.add(oferta.getTitle());
+					}
+					
+					for(String nombre:nombreOfertas)
+					{
+						assertTrue(nombresBBD.contains(nombre));
+					}
 					
 				}
+				
+				//Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se
+				//muestra la página que corresponde, con la lista de ofertas vacía.
+				@Test
+				public void PR9_22()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de ofertas disponibles
+					elementos = PO_View.checkElement(driver, "id", "btn_viewOffers");
+					elementos.get(0).click();
+					
+					PO_ViewOffers.search(driver, "dsjvgsojhfbsdojf");
+					assertFalse(PO_ViewOffers.elementExistsName(driver, "title_value"));
+										
+				}
+				
+				@Test
+				public void PR10_23()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de ofertas disponibles
+					elementos = PO_View.checkElement(driver, "id", "btn_viewOffers");
+					elementos.get(0).click();
+					
+					PO_ViewOffers.purchaseOffer(driver, "B3");
+					
+					//Seleccionamos 
+					elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'profile-menu')]/a");
+					elementos.get(0).click();
+					
+					//Pinchamos en el botón ver lista de ofertas disponibles
+					elementos = PO_View.checkElement(driver, "id", "btn_profile");
+					elementos.get(0).click();
+					
+					elementos=PO_View.checkElement(driver, "id", "saldo_value");
+					
+					assertTrue(elementos.get(0).getText()=="0.0");
+				}
+				
+				@Test
+				public void PR10_27() {
+					PO_Properties prop=new PO_Properties("messages");
+					/*VISTA PRINCIPAL*/
+						//ES
+						WebElement titulo=driver.findElement(By.id("title_home"));
+						String tituloText=titulo.getText();
+						
+						WebElement descripcion=driver.findElement(By.id("description_home"));
+						String descripcionText=descripcion.getText();
+						
+						assertEquals(prop.getString("index.title", prop.getSPANISH()),tituloText);
+						assertEquals(prop.getString("index.description", prop.getSPANISH()),descripcionText);
+						
+						//EN
+						PO_NavView.changeIdiom(driver, "btnEnglish");
+						titulo=driver.findElement(By.id("title_home"));
+						tituloText=titulo.getText();
+						
+						descripcion=driver.findElement(By.id("description_home"));
+						descripcionText=descripcion.getText();
+						
+						assertEquals(prop.getString("index.title", prop.getENGLISH()),tituloText);
+						assertEquals(prop.getString("index.description", prop.getENGLISH()),descripcionText);
+						
+						//ES
+						PO_NavView.changeIdiom(driver, "btnSpanish");
+						titulo=driver.findElement(By.id("title_home"));
+						tituloText=titulo.getText();
+						
+						descripcion=driver.findElement(By.id("description_home"));
+						descripcionText=descripcion.getText();
+						
+						assertEquals(prop.getString("index.title", prop.getSPANISH()),tituloText);
+						assertEquals(prop.getString("index.description", prop.getSPANISH()),descripcionText);
+						
+					/* OPCIONES PRINCIPALES DE USUARIO ESTANDAR */
+						//Entramos como usuario
+						PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+						PO_LoginView.fillForm(driver, "christian@email.com","123456");
+						
+						//ES
+						List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+						String menuOfertas_text=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'personal-menu')]/a");
+						String menuPersonal_text=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("nav.offer_management", prop.getSPANISH()),menuOfertas_text);
+						assertEquals(prop.getString("nav.private_area", prop.getSPANISH()),menuPersonal_text);
+						
+						//EN
+						PO_NavView.changeIdiom(driver, "btnEnglish");
+						elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+						menuOfertas_text=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'personal-menu')]/a");
+						menuPersonal_text=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("nav.offer_management", prop.getENGLISH()),menuOfertas_text);
+						assertEquals(prop.getString("nav.private_area", prop.getENGLISH()),menuPersonal_text);
+						
+						//ES
+						PO_NavView.changeIdiom(driver, "btnSpanish");
+						elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+						menuOfertas_text=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'personal-menu')]/a");
+						menuPersonal_text=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("nav.offer_management", prop.getSPANISH()),menuOfertas_text);
+						assertEquals(prop.getString("nav.private_area", prop.getSPANISH()),menuPersonal_text);
+						
+					/*Listado Usuarios Admin*/
+						// Pinchamos en la opción del menú del perfil del usuario
+						 elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'profile-menu')]/a");
+						elementos.get(0).click();
+						//Pinchamos en el botón desconectar
+						elementos = PO_View.checkElement(driver, "id", "btn_logout");
+						elementos.get(0).click();
+						
+						//Entramos como admin
+						PO_LoginView.fillForm(driver, "admin@email.com","admin");
+						
+						//Entramos en la lista de usuarios
+						elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
+						elementos.get(0).click();
+												//Pinchamos en el botón ver lista de usuarios
+						elementos = PO_View.checkElement(driver, "id", "btn_userlist");
+						elementos.get(0).click();
+						
+						//ES
+						elementos = PO_View.checkElement(driver, "id", "title_listUsers");
+						String titulo_lista=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "id", "title_explain_listUsers");
+						String explicacion_lista=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("users.view.title", prop.getSPANISH()),titulo_lista);
+						assertEquals(prop.getString("users.view.explanation", prop.getSPANISH()),explicacion_lista);
+						
+						//EN
+						PO_NavView.changeIdiom(driver, "btnEnglish");
+						
+						elementos = PO_View.checkElement(driver, "id", "title_listUsers");
+						titulo_lista=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "id", "title_explain_listUsers");
+						explicacion_lista=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("users.view.title", prop.getENGLISH()),titulo_lista);
+						assertEquals(prop.getString("users.view.explanation", prop.getENGLISH()),explicacion_lista);
+						
+						//ES
+						PO_NavView.changeIdiom(driver, "btnSpanish");
+						
+						elementos = PO_View.checkElement(driver, "id", "title_listUsers");
+						titulo_lista=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "id", "title_explain_listUsers");
+						explicacion_lista=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("users.view.title", prop.getSPANISH()),titulo_lista);
+						assertEquals(prop.getString("users.view.explanation", prop.getSPANISH()),explicacion_lista);
+						
+					/*VISTA DE ALTA DE OFERTA*/
+						// Pinchamos en la opción del menú del perfil del usuario
+						 elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'profile-menu')]/a");
+						elementos.get(0).click();
+						//Pinchamos en el botón desconectar
+						elementos = PO_View.checkElement(driver, "id", "btn_logout");
+						elementos.get(0).click();
+						
+						//Entramos como usuario normal
+						PO_LoginView.fillForm(driver, "christian@email.com","123456");
+						
+						//Seleccionamos la gestión de ofertas
+						elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'offers-menu')]/a");
+						elementos.get(0).click();
+						
+						//Pinchamos en el botón de añadir oferta
+						elementos = PO_View.checkElement(driver, "id", "btn_addOffer");
+						elementos.get(0).click();
+						
+						//ES
+						elementos = PO_View.checkElement(driver, "id", "title_addOffer");
+						String titulo_add=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "id", "lbl_titleOffer");
+						String titulo_offer=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("offer.add", prop.getSPANISH()),titulo_add);
+						assertEquals(prop.getString("offer.add.title", prop.getSPANISH()),titulo_offer);
+						
+						//EN
+						PO_NavView.changeIdiom(driver, "btnEnglish");
+						
+						elementos = PO_View.checkElement(driver, "id", "title_addOffer");
+						titulo_add=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "id", "lbl_titleOffer");
+						titulo_offer=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("offer.add", prop.getENGLISH()),titulo_add);
+						assertEquals(prop.getString("offer.add.title", prop.getENGLISH()),titulo_offer);
+						
+						//ES
+						PO_NavView.changeIdiom(driver, "btnSpanish");
+						
+						elementos = PO_View.checkElement(driver, "id", "title_addOffer");
+						titulo_add=elementos.get(0).getText();
+					
+						elementos = PO_View.checkElement(driver, "id", "lbl_titleOffer");
+						titulo_offer=elementos.get(0).getText();
+						
+						assertEquals(prop.getString("offer.add", prop.getSPANISH()),titulo_add);
+						assertEquals(prop.getString("offer.add.title", prop.getSPANISH()),titulo_offer);
+						
+				}
+				
 }

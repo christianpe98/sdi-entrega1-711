@@ -5,8 +5,8 @@
 	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<h2>Usuarios</h2>
-		<p>Seleccione los usuarios que desea eliminar:</p>
+		<h2 th:text="#{users.delete.title}">Usuarios</h2>
+		<p th:text="#{user.delete.explanation}">Seleccione los usuarios que desea eliminar:</p>
 		
 		<form class="form-horizontal" method="post" action="/user/delete">
 		<div class="table-responsive" >
@@ -14,9 +14,9 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>Email</th>
-						<th>Nombre</th>
-						<th>Apellidos</th>
+						<th th:text="#{table.users.field.email}">Email</th>
+						<th th:text="#{table.users.field.name}">Nombre</th>
+						<th th:text="#{table.users.field.lastname}">Apellidos</th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
@@ -36,7 +36,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button id="btn_eliminar" type="submit" class="btn btn-primary">Eliminar</button>
+					<button id="btn_eliminar" type="submit" class="btn btn-primary" th:text="#{users.delete.btn_dlt}">Eliminar</button>
 				</div>
 			</div>
 		</div>
