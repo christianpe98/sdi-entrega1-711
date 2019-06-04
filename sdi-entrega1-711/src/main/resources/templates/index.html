@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<nav th:replace="fragments/nav" />
+	<div class="container" style="text-align: center">
+		<h2 id="title_home" th:text="#{index.title}"></h2>
+		<p id="description_home" th:text="#{index.description}">MyWallapop, la web de compra-venta más grande del país en
+			la que millones de usuarios compran y venden productos nuevos,
+			productos de segunda mano. Usando MyWallapop ahorrarás dinero y conseguirás un
+			ingreso extra vendiendo lo que ya no utilizas. En MyWallapop
+			encontrarás el catálogo más amplio de anuncios clasificados y podrás
+			publicar anuncios gratis.</p>
+			
+		<div sec:authorize="!isAuthenticated()">
+			<ul class="list-group row" >
+				<li class="list-group-item col-md-6">
+				  <a href="/signup" class="list-group-item" th:text="#{nav.signup.message}">Registrate</a>
+			  	</li>
+				  <li class="list-group-item col-md-6">
+				  <a href="/login" class="list-group-item" th:text="#{nav.login.message}">Inicia sesión</a>
+			  	</li>
+			</ul>
+		</div>
+
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html></html>
