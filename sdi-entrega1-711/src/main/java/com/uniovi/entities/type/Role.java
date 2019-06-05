@@ -1,3 +1,4 @@
+
 package com.uniovi.entities.type;
 
 public enum Role {

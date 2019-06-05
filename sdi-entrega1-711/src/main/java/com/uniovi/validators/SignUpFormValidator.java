@@ -29,10 +29,10 @@ public class SignUpFormValidator implements Validator {
 		if (usersService.getUserByEmail(user.getEmail()) != null) {
 			errors.rejectValue("email", "Error.signup.email.duplicate");
 		}
-		if (user.getName().length() < 5 || user.getName().length() > 24) {
+		if (user.getName().length() < 3 || user.getName().length() > 24) {
 			errors.rejectValue("name", "Error.signup.name.length");
 		}
-		if (user.getLastName().length() < 5 || user.getLastName().length() > 24) {
+		if (user.getLastName().length() < 3 || user.getLastName().length() > 24) {
 			errors.rejectValue("lastName", "Error.signup.lastName.length");
 		}
 		if (user.getPassword().length() < 5 || user.getPassword().length() > 24) {
