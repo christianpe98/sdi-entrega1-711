@@ -47,10 +47,10 @@
 						
 						<ul class="list-group" sec:authorize="hasRole('ROLE_ADMIN')">
 							<li class="list-group-item">
-							  <a href="/user/list" class="list-group-item list-group-item-action" th:text="#{profile.view_users}">Ver usuarios</a>
+							  <a href="/admin/list" class="list-group-item list-group-item-action" th:text="#{profile.view_users}">Ver usuarios</a>
 						  	</li>
 							  <li class="list-group-item ">
-							  <a href="/user/delete" class="list-group-item " th:text="#{profile.delete_users}">Eliminar usuario</a>
+							  <a href="/admin/delete" class="list-group-item " th:text="#{profile.delete_users}">Eliminar usuario</a>
 						  	</li>
 						</ul>
 				</div>

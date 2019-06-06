@@ -1,10 +1,15 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.Map;
+
+import javax.servlet.ServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +37,16 @@ public class UserController {
 	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@RequestMapping("/login")
-	public String login() {
+	public String login(ServletRequest request, Model model) {
+	
+		Map<String, String[]> paramMap = request.getParameterMap();
+	    model.addAttribute("loginError", false);
+	    if (paramMap.containsKey("error")) 
+	    { 
+	        model.addAttribute("loginError", true);
+	    }
+    
+		
 		return "login";
 	}
 
@@ -51,16 +65,22 @@ public class UserController {
 		usersService.addUser(user);
 		logger.info("Se ha registrado un nuevo usuario: " + user.getEmail());
 		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
-		return "redirect:user/profile";
+		return "redirect:/user/profile";
 	}
 
-	@RequestMapping("user/profile")
-	public String profile(Model model, Principal principal) {
-		String email = principal.getName();
-		User user = usersService.getUserByEmail(email);
-		model.addAttribute("user", user);
+	@RequestMapping("/user/profile")
+	public String profile(Model model) {
+		User usuario=usersService.usuarioActual();
+		String email="DESCONOCIDO";
+		if(usuario!=null)
+		{
+			email=usuario.getEmail();
+		}	
 		logger.info("El usuario " + email + " ha accedido a su perfil");
+		model.addAttribute("user", usuario);
 		return "user/profile";
 	}
 
+
+	
 }

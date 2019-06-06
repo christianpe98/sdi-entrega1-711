@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-import com.uniovi.entities.type.Role;
 
 @Entity
 public class User {
@@ -17,7 +16,7 @@ public class User {
 	private String email;
 	private String name;
 	private String lastName;
-	private String role=Role.ROLE_USER.toString();
+	private String role="ROLE_USER";
 	
 	private double balance;
 	

@@ -13,8 +13,8 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li id="offers-menu" class="dropdown"
-					sec:authorize="hasRole('ROLE_NORMAL')"><a
-					class="dropdown-toggle" data-toggle="dropdown" href="#"><span th:text="#{nav.offer_management}">Gestión de ofertas</span>
+					sec:authorize="hasRole('ROLE_USER')"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="#"><span th:text="#{nav.offer_management}">GestiÃ³n de ofertas</span>
 						   <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
@@ -22,8 +22,8 @@
 						<li><a id="btn_viewOffers" href="/offer/list" th:text="#{nav.view_offers}"> Ver Oferta</a></li>
 					</ul></li> 
 				<li id="personal-menu" class="dropdown"
-					sec:authorize="hasRole('ROLE_NORMAL')"><a
-					class="dropdown-toggle" data-toggle="dropdown" href="# "><span th:text="#{nav.private_area}">Área
+					sec:authorize="hasRole('ROLE_USER')"><a
+					class="dropdown-toggle" data-toggle="dropdown" href="# "><span th:text="#{nav.private_area}">Ã�rea
 						personal</span>    <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
@@ -32,12 +32,12 @@
 					</ul></li>
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a
-					class="dropdown-toggle" data-toggle="dropdown" href="#" > <span th:text="#{nav.users_management}">Gestión de Usuarios</span>
+					class="dropdown-toggle" data-toggle="dropdown" href="#" > <span th:text="#{nav.users_management}">GestiÃ³n de Usuarios</span>
 						    <span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu">
-						<li><a id="btn_userlist" href="/user/list" th:text="#{nav.view_users}"> Ver Usuarios </a></li>
-						<li><a id="btn_removeUsers"href="/user/delete" th:text="#{nav.delete_users}"> Eliminar usuarios </a></li>
+						<li><a id="btn_userlist" href="/admin/list" th:text="#{nav.view_users}"> Ver Usuarios </a></li>
+						<li><a id="btn_removeUsers"href="/admin/delete" th:text="#{nav.delete_users}"> Eliminar usuarios </a></li>
 					</ul>
 				</li>
 				
@@ -54,34 +54,38 @@
 							<li><a id="btnEnglish" value="EN"> <img
 									th:src="@{/img/if_uk_flag.png}"
 									style="border: 0; float: left; margin-right: 15px" /> <span
-									th:text="#{language.en}">Inglés</span>
+									th:text="#{language.en}">InglÃ©s</span>
 							</a></li>
 							<li><a id="btnSpanish" value="ES"> <img
 									th:src="@{/img/if_spain_flag.png}"
 									style="border: 0; float: left; margin-right: 15px" /> <span
-									th:text="#{language.es}">Español</span>
+									th:text="#{language.es}">EspaÃ±ol</span>
 							</a></li>
 						</ul></li>
 					<li sec:authorize="!isAuthenticated()"><a id="btn_signUp_nav" href="/signup"> <span th:text="#{nav.signup.message}">Registrate</span> <span
 							class="glyphicon glyphicon-user"></span> 
 					</a></li>
-					<li sec:authorize="!isAuthenticated()"><a href="/login" id="btn_login_nav"><span th:text="#{nav.login.message}"> Identifícate</span> <span
+					<li sec:authorize="!isAuthenticated()"><a href="/login" id="btn_login_nav"><span th:text="#{nav.login.message}"> IdentifÃ­cate</span> <span
 							class="glyphicon glyphicon-log-in"></span>
 					</a></li>
 					
 					<ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
 					<li  id="profile-menu" class="dropdown"><a
 						class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
+						<strong th:text="${user.getEmail()}">prueba</strong>
 						<img src="/img/student-48.png" class="rounded-circle z-depth-0" alt="avatar image" />
 						<span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
+							
 							<li><a id="btn_profile" href="/user/profile" ><span th:text="#{nav.profile}"> Perfil</span><span class="glyphicon glyphicon-user"></span>
 							 		   </a></li>
 							<li>
 								<a id="btn_logout" href="/logout" ><span th:text="#{nav.logout}">Desconectar</span>
 							 		<span class="glyphicon glyphicon-log-out"></span>   </a>
 							 		</li>
+				 		 <li sec:authorize="hasRole('ROLE_USER')" class="nav-divider"></li>
+				 		 <li sec:authorize="hasRole('ROLE_USER')">Saldo: <strong th:text="${user.getBalance()}+ €"></strong></li>
 						</ul>
 					</li>
 					<script>
