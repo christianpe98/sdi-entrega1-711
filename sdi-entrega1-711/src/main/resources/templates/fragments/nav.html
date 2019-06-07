@@ -72,7 +72,7 @@
 					<ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
 					<li  id="profile-menu" class="dropdown"><a
 						class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" href="#">
-						<strong th:text="${user.getEmail()}">prueba</strong>
+						<strong th:if="${user!=null}" th:text="${user.getEmail()}">prueba</strong>
 						<img src="/img/student-48.png" class="rounded-circle z-depth-0" alt="avatar image" />
 						<span class="caret"></span>
 						</a>
@@ -85,7 +85,7 @@
 							 		<span class="glyphicon glyphicon-log-out"></span>   </a>
 							 		</li>
 				 		 <li sec:authorize="hasRole('ROLE_USER')" class="nav-divider"></li>
-				 		 <li sec:authorize="hasRole('ROLE_USER')">Saldo: <strong th:text="${user.getBalance()}+ €"></strong></li>
+				 		 <li  sec:authorize="hasRole('ROLE_USER')">Saldo: <strong th:if="${user!=null}" th:text="${user.getBalance()}+ €"></strong></li>
 						</ul>
 					</li>
 					<script>

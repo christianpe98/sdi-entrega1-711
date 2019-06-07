@@ -32,6 +32,12 @@ public class OffersService {
 	}
 
 	public void deleteOffer(Long id) {
+		User usuarioActual=userService.usuarioActual();
+		Offer oferta=getOffer(id);
+		if(oferta==null || !oferta.getUser().equals(usuarioActual))
+		{
+			throw new IllegalArgumentException();
+		}
 		offersRepository.deleteById(id);
 	}
 

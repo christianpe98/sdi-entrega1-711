@@ -7,6 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.uniovi.entities.User;
 
@@ -20,7 +24,10 @@ public class Offer {
 	private String title;
 	private String description;
 	private Double price;
-	private Boolean purchased = false;	
+	private Boolean purchased = false;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	
 	
@@ -118,6 +125,12 @@ public class Offer {
 
 	public void setPurchaser(User purchaser) {
 		this.purchaser = purchaser;
+	}
+
+	@Override
+	public String toString() {
+		return "Offer [title=" + title + ", description=" + description + ", price=" + price + ", purchased="
+				+ purchased + ", date=" + date + ", user=" + user + ", purchaser=" + purchaser + "]";
 	}
 	
 }
