@@ -19,20 +19,19 @@
 
 		<p th:text="#{offer.list.explanation}">Las ofertas que actualmente figuran en el sistema son las
 			siguientes:</p>
-		<button th:text="#{offert.list.btn_update}" id="btn_update" type="button" class="btn btn-default">Actualizar</button>
-		<script th:inline="javascript">
- /*<![CDATA[*/
-	 $( "#updateButton" ).click(function() {
- var numberPage = [[${param.page}]];
- var urlUpdate = '/offer/list/update';
- if (numberPage != null ){
- urlUpdate += "?page="+numberPage[0];
- }
- $("#tableOffers").load(urlUpdate);
- });
-				/*]]>*/
- 		</script>
+		
+		<div  th:if="${noDinero}" class="alert alert-danger alert-dismissible">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong th:text="#{Error.purchase.price}">ERROR!</strong>
+		</div>
+		
+		<div th:if="${esPropietario==true}" class="alert alert-warning alert-dismissible">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong th:text="Error.purchase.esPropietario">ERROR!</strong>
+		</div>
+			
 		<div class="table-responsive" th:fragment="tableOffers" id="tableOffers">
+		
 			<table class="table table-hover"  >
 				<thead>
 					<tr>
@@ -53,41 +52,12 @@
 						<td id="price_value" th:text="${offer.price}">10</td>
 						<td><div>
 							<div th:if="${offer.purchased}">
-								<button name="btn_purchased" type="button" th:id="${'purchaseButton' + offer.id}"
-									class="btn btn-info" th:text="#{table.offers.btn_sold}">Vendida</button>
-								<script th:inline="javascript">
-									/*<![CDATA[*/
-									$("#purchaseButton[[${offer.id}]]").click(function() 
-												$.get("/offer/[[${offer.id}]]/nopurchase",function(data) {
-													var numberPage = [[${param.page}]];
-													 var urlUpdate = '/offer/list/update';
-													 if ( numberPage != null ){
-													 	urlUpdate += "?page="+numberPage[0];
-													 }
-													$("#tableOffers").load(urlUpdate);
-													 
-																		});
-													});
-									/*]]>*/
-								</script>
+								<p >VENDIDA</p>
+								
 							</div>
 							<div th:unless="${offer.purchased}">
-								<button name="btn_nopurchased"type="button" th:id="${'nopurchaseButton' + offer.id}"
-									class="btn btn-default" th:text="#{table.offers.btn_purchase}">Comprar</button>
-								<script th:inline="javascript">
-									/*<![CDATA[*/
-									$("#nopurchaseButton[[${offer.id}]]").click(function() {
-										$.get("/offer/[[${offer.id}]]/purchase",function(data) {
-											var numberPage = [[${param.page}]];
-											 var urlUpdate = '/offer/list/update';
-											 if ( numberPage != null ){
-												urlUpdate += "?page="+numberPage[0];
-											}
-											$("#tableOffers").load(urlUpdate);
-												});
-											});
-									/*]]>*/
-								</script>
+								<a th:href="${'/offer/'+ offer.id+'/purchase/' }" name="remove_link">COMPRAR</a>
+								
 							</div></td>
 					</tr>
 				</tbody>

@@ -51,25 +51,26 @@ public class OffersService {
 
 	public void setOfferPurchased(boolean purchase, Long id) {
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		User user = userService.getUserByEmail(email);
+		User user = userService.usuarioActual();
 		Offer offer = offersRepository.findById(id).get();
-		if (purchase == true) // el usuario quiere comprar la oferta
+		if(user.equals(offer.getUser())) //El propietario no puede comprar su propia oferta
 		{
-			if (!user.equals(offer.getUser())) // un usuario no puede comprar su propia oferta
-			{
-				if (offer.getPurchased() != true) // no esta comprada
-				{
-					if (user.getBalance() >= offer.getPrice()) { // el usuario tiene el dinero
-
-						user.decrementBalance(offer.getPrice());
-						offersRepository.updatePurchase(purchase, id, user);
-						user.getOffersPurchased().add(offer);
-					}
-				}
-			}
+			throw new IllegalArgumentException("esPropietario");
 		}
+		if(user.getBalance()<offer.getPrice())//El propietario no tiene dinero para hacer la compra
+		{
+			throw new IllegalArgumentException("noDinero");
+		}
+		
+		if(purchase) //el usuario quiere comprar
+		{
+			user.decrementBalance(offer.getPrice());
+			offersRepository.updatePurchase(purchase, id, user);
+			user.getOffersPurchased().add(offer);
+			userService.update(user);
+		}
+
+		
 
 	}
 

@@ -40,7 +40,7 @@ public class UserController {
 	public String login(ServletRequest request, Model model) {
 	
 		Map<String, String[]> paramMap = request.getParameterMap();
-	    model.addAttribute("loginError", false);
+
 	    if (paramMap.containsKey("error")) 
 	    { 
 	        model.addAttribute("loginError", true);

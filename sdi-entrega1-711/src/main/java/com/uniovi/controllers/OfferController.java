@@ -2,10 +2,16 @@ package com.uniovi.controllers;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.LinkedList;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -83,14 +89,55 @@ public class OfferController {
 	}
 	
 	@RequestMapping("/offer/purchased")
-	public String getOffersPurchased(Model model,Principal principal) {
-		String email = principal.getName(); // DNI es el name de la autenticación
-		User user = usersService.getUserByEmail(email);
+	public String getOffersPurchased(Model model) {
+		User user = usersService.usuarioActual();
 		model.addAttribute("user", user);
 		model.addAttribute("offerList", user.getOffersPurchased() );
 		
-		logger.info("El usuario " + user.getEmail() + " ha a la vista para ver sus ofertas compradas");
+		logger.info("El usuario " + user.getEmail() + " ha accedido a la vista para ver sus ofertas compradas");
 		return "/offer/purchased";
+	}
+	
+	@RequestMapping("/offer/list")
+	public String getList(Model model, Pageable pageable,
+			@RequestParam(value = "searchText", required = false) String searchText
+			,HttpSession session) {
+		User user = usersService.usuarioActual();
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
+		if (searchText != null && !searchText.isEmpty()) {
+			offers = offersService.searchOfferByDescriptionAndTitle(pageable, searchText);
+			logger.info("El usuario " + user.getEmail() + " ha buscado la oferta: "+searchText);
+			model.addAttribute("searchText", searchText);
+		} else {
+			offers = offersService.getAllOffers(pageable);
+			model.addAttribute("searchText", "");
+		}
+		if(session.getAttribute("errorCompra")!=null)
+		{
+			model.addAttribute(session.getAttribute("errorCompra").toString(), true);
+			session.removeAttribute("errorCompra");
+		}
+		model.addAttribute("offerList", offers.getContent());
+		model.addAttribute("page", offers);
+		model.addAttribute("user", user);
+		return "offer/list";
+	}
+	
+	@RequestMapping(value = "/offer/{id}/purchase", method = RequestMethod.GET)
+	public String setResendTrue(HttpSession session, @PathVariable Long id) {
+		try {
+			offersService.setOfferPurchased(true, id);
+		}catch(IllegalArgumentException arg)
+		{
+			session.setAttribute("errorCompra", arg.getMessage());
+		}
+		return "redirect:/offer/list";
+	}
+
+	@RequestMapping(value = "/offer/{id}/nopurchase", method = RequestMethod.GET)
+	public String setResendFalse(Model model, @PathVariable Long id) {
+		//offersService.setOfferPurchased(false, id);
+		return "redirect:/offer/list";
 	}
 	
 }

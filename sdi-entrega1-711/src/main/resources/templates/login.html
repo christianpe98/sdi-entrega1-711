@@ -7,7 +7,7 @@
 		<h2 id="login_title" th:text="#{login.title}">Identificate</h2>
 		<div  th:if="${loginError==true}"  class="alert alert-warning alert-dismissible">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-			<strong th:text="#{Error.login}">Success!</strong>
+			<strong th:text="#{Error.login}">ERROR!</strong>
 		</div>
 		<form class="form-horizontal" method="post" action="/login">
 			<div class="form-group">

@@ -85,7 +85,7 @@
 							 		<span class="glyphicon glyphicon-log-out"></span>   </a>
 							 		</li>
 				 		 <li sec:authorize="hasRole('ROLE_USER')" class="nav-divider"></li>
-				 		 <li  sec:authorize="hasRole('ROLE_USER')">Saldo: <strong th:if="${user!=null}" th:text="${user.getBalance()}+ €"></strong></li>
+				 		 <li  sec:authorize="hasRole('ROLE_USER')">Saldo: <strong id="saldo" th:if="${user!=null}" th:text="${user.getBalance()}+ €"></strong></li>
 						</ul>
 					</li>
 					<script>
