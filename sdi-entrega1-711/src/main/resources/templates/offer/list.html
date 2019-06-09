@@ -20,7 +20,7 @@
 		<p th:text="#{offer.list.explanation}">Las ofertas que actualmente figuran en el sistema son las
 			siguientes:</p>
 		
-		<div  th:if="${noDinero}" class="alert alert-danger alert-dismissible">
+		<div id="errorDinero"  th:if="${noDinero}" class="alert alert-danger alert-dismissible">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<strong th:text="#{Error.purchase.price}">ERROR!</strong>
 		</div>
@@ -56,7 +56,7 @@
 								
 							</div>
 							<div th:unless="${offer.purchased}">
-								<a th:href="${'/offer/'+ offer.id+'/purchase/' }" name="remove_link">COMPRAR</a>
+								<a th:href="${'/offer/'+ offer.id+'/purchase/' }" name="purchase_link">COMPRAR</a>
 								
 							</div></td>
 					</tr>

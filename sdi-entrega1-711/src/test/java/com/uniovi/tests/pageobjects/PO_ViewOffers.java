@@ -12,7 +12,7 @@ public class PO_ViewOffers extends PO_NavView {
 	static public void search(WebDriver driver, String search) {
 		List<WebElement> elementos = checkElement(driver, "id", "search_input");
 		elementos.get(0).clear();
-		elementos.get(0).sendKeys("search");
+		elementos.get(0).sendKeys(search);
 
 		WebElement btnBuscador = driver.findElement(By.id("btn_search"));
 		btnBuscador.click();
@@ -22,7 +22,7 @@ public class PO_ViewOffers extends PO_NavView {
 
 		List<String> nameOfertas = new ArrayList<String>();
 		List<WebElement> paginas = PO_View.checkElement(driver, "@class", "page-link");
-		for (int i = 1; i < paginas.size() - 1; i++) {
+		for (int i = 1; i < paginas.size(); i++) {
 			paginas.get(i).click();
 			List<WebElement> ofertas = PO_View.checkElement(driver, "id", "title_value");
 			for (int j = 0; j < ofertas.size(); j++) {
@@ -39,7 +39,7 @@ public class PO_ViewOffers extends PO_NavView {
 		search(driver, title);
 		List<WebElement> paginas = PO_View.checkElement(driver, "@class", "page-link");
 		paginas.get(1).click();
-		List<WebElement> ofertas = PO_View.checkElement(driver, "@name", "btn_nopurchased");
+		List<WebElement> ofertas = PO_View.checkElement(driver, "@name", "purchase_link");
 		ofertas.get(0).click();
 	}
 }

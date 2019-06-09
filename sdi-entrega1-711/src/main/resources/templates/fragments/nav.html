@@ -28,7 +28,7 @@
 				</a>
 					<ul class="dropdown-menu">
 						<li><a id="btn_myOffers" href="/offer/my" th:text="#{nav.our_offers}"></a></li>
-						<li><a href="/offer/purchased" th:text="#{nav.purchased_offers}"></a></li>
+						<li><a id="btn_purchased" href="/offer/purchased" th:text="#{nav.purchased_offers}"></a></li>
 					</ul></li>
 				<li id="users-menu" class="dropdown"
 					sec:authorize="hasRole('ROLE_ADMIN')"><a

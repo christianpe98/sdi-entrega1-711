@@ -70,7 +70,6 @@ public class UserController {
 		if (usuario != null) {
 			email = usuario.getEmail();
 		}
-		logger.info("El usuario " + email + " ha accedido a su perfil");
 		model.addAttribute("user", usuario);
 		return "user/profile";
 	}

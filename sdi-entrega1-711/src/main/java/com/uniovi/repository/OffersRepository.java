@@ -29,4 +29,7 @@ public interface OffersRepository extends CrudRepository<Offer, Long> {
 	Page<Offer> findAll(Pageable pageable);
 
 	List<Offer> findAll();
+	
+	@Query("SELECT r FROM Offer r WHERE r.purchaser = ?1 ORDER BY r.id ASC ")
+	List<Offer> findAllByPurchaser(User user);
 }

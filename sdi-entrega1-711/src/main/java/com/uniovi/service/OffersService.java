@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Associations;
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.repository.OffersRepository;
@@ -25,16 +26,20 @@ public class OffersService {
 		return offerObtained;
 	}
 
-	public void addOffer(Offer offer) {
+	public void addOffer(Offer offer,User usuario) {
+		Associations.Crear.link(offer,usuario);
 		offersRepository.save(offer);
 	}
 
+	
+	
 	public void deleteOffer(Long id) {
 		User usuarioActual = userService.usuarioActual();
 		Offer oferta = getOffer(id);
 		if (oferta == null || !oferta.getUser().equals(usuarioActual)) {
 			throw new IllegalArgumentException();
 		}
+		Associations.Crear.unlink(oferta, usuarioActual);
 		offersRepository.deleteById(id);
 	}
 
@@ -62,8 +67,8 @@ public class OffersService {
 		if (purchase) // el usuario quiere comprar
 		{
 			user.decrementBalance(offer.getPrice());
-			offersRepository.updatePurchase(purchase, id, user);
-			user.getOffersPurchased().add(offer);
+			Associations.Comprar.link(offer, user);
+			this.update(offer);
 			userService.update(user);
 		}
 
@@ -81,8 +86,23 @@ public class OffersService {
 	public List<Offer> getOffersForUser(User user) {
 		return offersRepository.findAllByUser(user);
 	}
+	
+	public List<Offer> getOffersByPurchaser(User user) {
+		return offersRepository.findAllByPurchaser(user);
+	}
 
 	public void deleteAll() {
+		offersRepository.deleteAll();
+	}
+
+	public void addOffers(List<Offer> ofertas) {
+		for(Offer o:ofertas)
+		{
+			offersRepository.save(o);
+		}
+	}
+
+	public void removeAll() {
 		offersRepository.deleteAll();
 	}
 

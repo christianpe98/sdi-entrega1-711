@@ -26,9 +26,8 @@ public class AdminController {
 	@RequestMapping("/admin/list")
 	public String getListUsers(Model model, Principal principal) {
 		List<User> users = usersService.getUsers();
-		model.addAttribute("usersList", users);
-		logger.info("El administrador " + principal.getName() + "ha accedido a la lista de usuarios");
 		model.addAttribute("user", usersService.usuarioActual());
+		model.addAttribute("usersList", users);
 		return "admin/list";
 	}
 
@@ -36,7 +35,6 @@ public class AdminController {
 	public String getDeleteUsers(Model model, Principal principal) {
 		List<User> users = usersService.getUsers();
 		model.addAttribute("usersList", users);
-		logger.info("El administrador " + principal.getName() + "ha accedido a la lista de usuarios para eliminar");
 		model.addAttribute("user", usersService.usuarioActual());
 		return "admin/delete";
 	}

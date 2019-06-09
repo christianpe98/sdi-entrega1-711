@@ -23,15 +23,15 @@ public class User {
 	private String lastName;
 	private String role = "ROLE_USER";
 
-	private double balance;
+	private double balance= INIT_MONEY;
 
 	private static final double INIT_MONEY = 100;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Offer> offers;
+	private Set<Offer> offers= new HashSet<Offer>();
 
-	@OneToMany(mappedBy = "purchaser", cascade = CascadeType.ALL)
-	private Set<Offer> offersPurchased;
+	@OneToMany(mappedBy = "purchaser")
+	private Set<Offer> offersPurchased= new HashSet<Offer>();
 
 	private String password;
 	@Transient // propiedad que no se almacena e la tabla.
@@ -39,16 +39,12 @@ public class User {
 
 	public User(String email, String name, String lastName) {
 		super();
-		this.offers = new HashSet<Offer>();
-		this.offersPurchased = new HashSet<Offer>();
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
-		this.balance = INIT_MONEY;
 	}
 
 	public User() {
-		this.balance = INIT_MONEY;
 	}
 
 	public long getId() {

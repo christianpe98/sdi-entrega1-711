@@ -58,4 +58,16 @@ public class UsersService {
 		usersRepository.deleteAll();
 	}
 
+	public void addUsers(List<User> usuarios) {
+		for(User u:usuarios)
+		{
+			addUser(u);
+		}
+		
+	}
+
+	public void removeAll() {
+		usersRepository.deleteAll();
+	}
+
 }
