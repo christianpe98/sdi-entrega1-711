@@ -12,25 +12,22 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.uniovi.entities.User;
-
 @Entity
 public class Offer {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String title;
 	private String description;
 	private Double price;
 	private Boolean purchased = false;
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Date date;
-	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -38,21 +35,21 @@ public class Offer {
 	@ManyToOne
 	@JoinColumn(name = "puchaser_id")
 	private User purchaser;
-	
+
 	public Offer(String title, String description, Double price, User user) {
 		super();
 		this.description = description;
 		this.price = price;
 		this.user = user;
-		this.title=title;
+		this.title = title;
 	}
 
-	public Offer(Long id,String title, String description, Double price) {
+	public Offer(Long id, String title, String description, Double price) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.price = price;
-		this.title=title;
+		this.title = title;
 	}
 
 	public Offer() {
@@ -87,12 +84,11 @@ public class Offer {
 	}
 
 	public void setPrice(Double price) {
-		if(price<0)
-		{
+		if (price < 0) {
 			throw new IllegalArgumentException("El precio de una oferta no puede ser negativo");
 		}
 		this.price = price;
-			
+
 	}
 
 	public Boolean getPurchased() {
@@ -132,5 +128,5 @@ public class Offer {
 		return "Offer [title=" + title + ", description=" + description + ", price=" + price + ", purchased="
 				+ purchased + ", date=" + date + ", user=" + user + ", purchaser=" + purchaser + "]";
 	}
-	
+
 }

@@ -20,37 +20,39 @@ public class AdminController {
 
 	@Autowired
 	private UsersService usersService;
-	
-	private Logger logger=LoggerFactory.getLogger(AdminController.class);
-	
+
+	private Logger logger = LoggerFactory.getLogger(AdminController.class);
+
 	@RequestMapping("/admin/list")
-	public String getListUsers(Model model,Principal principal) {
-		List<User> users=usersService.getUsers();
+	public String getListUsers(Model model, Principal principal) {
+		List<User> users = usersService.getUsers();
 		model.addAttribute("usersList", users);
-		logger.info("El administrador "+principal.getName()+"ha accedido a la lista de usuarios");
+		logger.info("El administrador " + principal.getName() + "ha accedido a la lista de usuarios");
 		model.addAttribute("user", usersService.usuarioActual());
 		return "admin/list";
 	}
-	
+
 	@RequestMapping("/admin/delete")
-	public String getDeleteUsers(Model model,Principal principal) {
-		List<User> users=usersService.getUsers();
+	public String getDeleteUsers(Model model, Principal principal) {
+		List<User> users = usersService.getUsers();
 		model.addAttribute("usersList", users);
-		logger.info("El administrador "+principal.getName()+"ha accedido a la lista de usuarios para eliminar");
+		logger.info("El administrador " + principal.getName() + "ha accedido a la lista de usuarios para eliminar");
 		model.addAttribute("user", usersService.usuarioActual());
 		return "admin/delete";
 	}
-	
+
 	@RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
-	public String getDeleteUsers(@RequestParam(value = "check_value", required = false) List<String> usersRemove,Principal principal) {
+	public String getDeleteUsers(@RequestParam(value = "check_value", required = false) List<String> usersRemove,
+			Principal principal) {
 		if (usersRemove != null) {
 			for (String id : usersRemove) {
-				User usuario=usersService.getUser(Long.valueOf(Long.parseLong(id)));
+				User usuario = usersService.getUser(Long.valueOf(Long.parseLong(id)));
 				usersService.deleteUser(Long.valueOf(Long.parseLong(id)));
-				logger.info("El administrador "+principal.getName()+"ha eliminado al usuario "+usuario.getEmail());
+				logger.info(
+						"El administrador " + principal.getName() + "ha eliminado al usuario " + usuario.getEmail());
 			}
 		}
-		
+
 		return "redirect:/admin/delete";
 	}
 }

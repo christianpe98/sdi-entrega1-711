@@ -16,10 +16,10 @@ import com.uniovi.service.RolesService;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
+
 	@Autowired
 	private RolesService rolesService;
 
@@ -30,20 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-			.authorizeRequests()
+		http.csrf().disable().authorizeRequests()
 				.antMatchers("/css/**", "/img/**", "/script/**", "/", "/signup", "/login/**").permitAll()
-				.antMatchers("/user/profile").hasAnyAuthority(rolesService.getRoles()[1],rolesService.getRoles()[0])
-				.antMatchers("/admin/**").hasAnyAuthority(rolesService.getRoles()[1])
-				.antMatchers("/user/**").hasAnyAuthority(rolesService.getRoles()[0])
-				.anyRequest().authenticated()
-					.and()
-				.formLogin()
-					.loginPage("/login")
-					.permitAll().defaultSuccessUrl("/user/profile")
-					.and()
-				.logout()
-					.permitAll();
+				.antMatchers("/user/profile").hasAnyAuthority(rolesService.getRoles()[1], rolesService.getRoles()[0])
+				.antMatchers("/admin/**").hasAnyAuthority(rolesService.getRoles()[1]).antMatchers("/user/**")
+				.hasAnyAuthority(rolesService.getRoles()[0]).anyRequest().authenticated().and().formLogin()
+				.loginPage("/login").permitAll().defaultSuccessUrl("/user/profile").and().logout().permitAll();
 	}
 
 	@Autowired
@@ -56,9 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-	
+
 	@Bean
-	 public SpringSecurityDialect securityDialect() {
-	 return new SpringSecurityDialect();
-	 }
+	public SpringSecurityDialect securityDialect() {
+		return new SpringSecurityDialect();
+	}
 }

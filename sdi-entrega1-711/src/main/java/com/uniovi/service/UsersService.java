@@ -17,10 +17,10 @@ public class UsersService {
 
 	@Autowired
 	private UsersRepository usersRepository;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	public void addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		usersRepository.save(user);
@@ -29,7 +29,7 @@ public class UsersService {
 	public void update(User user) {
 		usersRepository.save(user);
 	}
-	
+
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
 		usersRepository.findAll().forEach(users::add);
@@ -39,20 +39,23 @@ public class UsersService {
 	public User getUser(Long id) {
 		return usersRepository.findById(id).get();
 	}
-	
+
 	public void deleteUser(Long id) {
 		usersRepository.deleteById(id);
 	}
-	
+
 	public User getUserByEmail(String email) {
 		return usersRepository.findByEmail(email);
-		}
+	}
 
-	public User usuarioActual()
-	{
+	public User usuarioActual() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		return getUserByEmail(email);
 	}
-	
+
+	public void deleteAll() {
+		usersRepository.deleteAll();
+	}
+
 }

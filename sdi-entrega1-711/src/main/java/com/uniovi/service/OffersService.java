@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Offer;
@@ -32,10 +30,9 @@ public class OffersService {
 	}
 
 	public void deleteOffer(Long id) {
-		User usuarioActual=userService.usuarioActual();
-		Offer oferta=getOffer(id);
-		if(oferta==null || !oferta.getUser().equals(usuarioActual))
-		{
+		User usuarioActual = userService.usuarioActual();
+		Offer oferta = getOffer(id);
+		if (oferta == null || !oferta.getUser().equals(usuarioActual)) {
 			throw new IllegalArgumentException();
 		}
 		offersRepository.deleteById(id);
@@ -53,24 +50,22 @@ public class OffersService {
 
 		User user = userService.usuarioActual();
 		Offer offer = offersRepository.findById(id).get();
-		if(user.equals(offer.getUser())) //El propietario no puede comprar su propia oferta
+		if (user.equals(offer.getUser())) // El propietario no puede comprar su propia oferta
 		{
 			throw new IllegalArgumentException("esPropietario");
 		}
-		if(user.getBalance()<offer.getPrice())//El propietario no tiene dinero para hacer la compra
+		if (user.getBalance() < offer.getPrice())// El propietario no tiene dinero para hacer la compra
 		{
 			throw new IllegalArgumentException("noDinero");
 		}
-		
-		if(purchase) //el usuario quiere comprar
+
+		if (purchase) // el usuario quiere comprar
 		{
 			user.decrementBalance(offer.getPrice());
 			offersRepository.updatePurchase(purchase, id, user);
 			user.getOffersPurchased().add(offer);
 			userService.update(user);
 		}
-
-		
 
 	}
 
@@ -85,6 +80,10 @@ public class OffersService {
 
 	public List<Offer> getOffersForUser(User user) {
 		return offersRepository.findAllByUser(user);
+	}
+
+	public void deleteAll() {
+		offersRepository.deleteAll();
 	}
 
 }

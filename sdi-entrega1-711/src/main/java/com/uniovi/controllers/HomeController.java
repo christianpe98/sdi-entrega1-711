@@ -12,13 +12,11 @@ public class HomeController {
 
 	@Autowired
 	private UsersService userService;
-	
+
 	@RequestMapping("/")
-	public String index(Model model)
-	{
+	public String index(Model model) {
 		model.addAttribute("user", userService.usuarioActual());
 		return "index";
 	}
-	
-	
+
 }

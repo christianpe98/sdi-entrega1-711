@@ -3,28 +3,33 @@ package com.uniovi.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class User {
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@Column(unique = true)
 	private String email;
 	private String name;
 	private String lastName;
-	private String role="ROLE_USER";
-	
+	private String role = "ROLE_USER";
+
 	private double balance;
-	
-	private static final double INIT_MONEY=100;
-	
+
+	private static final double INIT_MONEY = 100;
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Offer> offers;
-	
+
 	@OneToMany(mappedBy = "purchaser", cascade = CascadeType.ALL)
 	private Set<Offer> offersPurchased;
 
@@ -34,16 +39,16 @@ public class User {
 
 	public User(String email, String name, String lastName) {
 		super();
-		this.offers=new HashSet<Offer>();
-		this.offersPurchased=new HashSet<Offer>();
+		this.offers = new HashSet<Offer>();
+		this.offersPurchased = new HashSet<Offer>();
 		this.email = email;
 		this.name = name;
 		this.lastName = lastName;
-		this.balance=INIT_MONEY;
+		this.balance = INIT_MONEY;
 	}
 
 	public User() {
-		this.balance=INIT_MONEY;
+		this.balance = INIT_MONEY;
 	}
 
 	public long getId() {
@@ -119,21 +124,18 @@ public class User {
 	}
 
 	private void setBalance(double balance) {
-		if(balance<0)
-		{
+		if (balance < 0) {
 			throw new IllegalArgumentException("El saldo no puede ser negativo");
 		}
 		this.balance = balance;
 	}
-	
-	public void incrementBalance(double money)
-	{
-		setBalance(this.balance+money);
+
+	public void incrementBalance(double money) {
+		setBalance(this.balance + money);
 	}
-	
-	public void decrementBalance(double money)
-	{
-		setBalance(this.balance-money);
+
+	public void decrementBalance(double money) {
+		setBalance(this.balance - money);
 	}
 
 	@Override
@@ -174,6 +176,5 @@ public class User {
 			return false;
 		return true;
 	}
-	
-	
+
 }
