@@ -54,6 +54,13 @@ public class PO_View {
 		return elementos;		
 	}
 	
+	static public void clickElementId(WebDriver driver, String text) {
+		if(elementExists(driver, text)) {
+			List<WebElement> elementos=checkElement(driver,"id",text);
+			elementos.get(0).click();
+		}
+	}
+	
 	static public boolean elementExists(WebDriver driver,String id)
 	{
 		new WebDriverWait(driver, timeout);

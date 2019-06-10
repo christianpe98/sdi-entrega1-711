@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class PO_AddOfferView extends PO_View{
 
-	static public void fillForm(WebDriver driver, String titulo, String detalles, double precio) {
+	static public void addOffer(WebDriver driver, String titulo, String detalles, double precio) {
 		WebElement title = driver.findElement(By.id("title_input"));
 		title.click();
 		title.clear();
@@ -16,6 +16,7 @@ public class PO_AddOfferView extends PO_View{
 		description.click();
 		description.clear();
 		description.sendKeys(detalles);
+		
 		
 		WebElement price = driver.findElement(By.id("price_input"));
 		price.click();

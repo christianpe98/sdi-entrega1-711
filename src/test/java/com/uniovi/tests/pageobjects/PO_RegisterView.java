@@ -30,7 +30,7 @@ public class PO_RegisterView extends PO_NavView {
 		passwordConfirm.sendKeys(passwordconfp);
 		
 		// Pulsar el boton de Alta.
-		By boton = By.id("btn_signUp_submit");
+		By boton = By.id("btnRegistrarse");
 		driver.findElement(boton).click();
 	}
 
