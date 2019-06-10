@@ -8,6 +8,7 @@ public class MyWallapop {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyWallapop.class, args);
+		//
 	}
 
 }
