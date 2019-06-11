@@ -30,6 +30,7 @@ import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_MyOffers;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_Properties;
+import com.uniovi.tests.pageobjects.PO_Purchased;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_RemoveUsersView;
 import com.uniovi.tests.pageobjects.PO_View;
@@ -167,7 +168,7 @@ public class MyWallapopTest {
 		
 		//Inicio de sesión con datos válidos (administrador)
 		@Test
-		public void PR05() {
+		public void PR99() {
 			// Vamos al formulario de inicio de sesion
 			PO_HomeView.clickElementId(driver, "identificarse");
 			
@@ -180,7 +181,7 @@ public class MyWallapopTest {
 		
 		//Inicio de sesión con datos válidos (usuario estándar).
 		@Test
-		public void PR06() {
+		public void PR98() {
 			// Vamos al formulario de inicio de sesion
 			PO_HomeView.clickElementId(driver, "identificarse");
 			
@@ -191,9 +192,9 @@ public class MyWallapopTest {
 			PO_View.checkElement(driver, "id", "h2NombreApellido");
 		}
 		
-		//Inicio de sesión con datos inválidos (usuario estándar, campo email y contraseña vacíos)
+		//Inicio de sesión con datos válidos (campo email o contraseña vacíos).
 			@Test
-			public void PR07() {
+			public void PR06() {
 				// Vamos al formulario de inicio de sesion
 				PO_HomeView.clickElementId(driver, "identificarse");
 				
@@ -204,9 +205,9 @@ public class MyWallapopTest {
 				PO_RegisterView.checkElement(driver, "id", "h2Indentificar");
 			}
 				
-		//Inicio de sesión con datos inválidos (usuario estándar, email no existente en la aplicación).
+		//Inicio de sesión con datos inválidos (email existente, pero contraseña incorrecta)
 		@Test
-		public void PR08() {
+		public void PR05() {
 			// Vamos al formulario de inicio de sesion
 			PO_HomeView.clickElementId(driver, "identificarse");
 			
@@ -219,7 +220,7 @@ public class MyWallapopTest {
 		
 		//Inicio de sesión con datos inválidos (usuario estándar, email no existente en la aplicación).
 		@Test
-		public void PR09() {
+		public void PR07() {
 			// Vamos al formulario de inicio de sesion
 			PO_HomeView.clickElementId(driver, "identificarse");
 			
@@ -233,7 +234,7 @@ public class MyWallapopTest {
 		//Hacer click en la opción de salir de sesión y comprobar que se redirige a la página de inicio
 		//de sesión (Login)
 		@Test
-		public void PR10()
+		public void PR08()
 		{
 			// Vamos al formulario de inicio de sesion
 			PO_HomeView.clickElementId(driver, "identificarse");
@@ -255,14 +256,14 @@ public class MyWallapopTest {
 		
 		//Comprobar que el botón cerrar sesión no está visible si el usuario no está autenticado.
 		@Test
-		public void PR11(){
+		public void PR09(){
 			assertFalse(PO_View.elementExists(driver, "perfil-menu"));
 			assertFalse(PO_View.elementExists(driver, "btn_logout"));
 		}
 		
 		// Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el sistema. 
 		@Test
-		public void PR12(){
+		public void PR10(){
 			//Conseguir usuarios de la base de datos
 			List<String> emailsBBDD=new ArrayList<>();
 			
@@ -299,7 +300,7 @@ public class MyWallapopTest {
 		// Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar que la lista se actualiza
 		//y dicho usuario desaparece
 		@Test
-		public void PR13(){			
+		public void PR11(){			
 			//Entramos como administrador
 			PO_HomeView.clickElementId(driver, "identificarse");
 			PO_LoginView.fillForm(driver, "admin@email.com","admin");
@@ -320,7 +321,7 @@ public class MyWallapopTest {
 		// Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar que la lista se actualiza
 		//y dicho usuario desaparece
 			@Test
-				public void PR14(){
+				public void PR12(){
 				//Entramos como administrador
 				PO_HomeView.clickElementId(driver, "identificarse");
 				PO_LoginView.fillForm(driver, "admin@email.com","admin");
@@ -341,7 +342,7 @@ public class MyWallapopTest {
 				// Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se actualiza y dichos
 				//usuarios desaparecen
 						@Test
-						public void PR15(){
+						public void PR13(){
 							//Entramos como administrador
 							PO_HomeView.clickElementId(driver, "identificarse");
 							PO_LoginView.fillForm(driver, "admin@email.com","admin");
@@ -364,7 +365,7 @@ public class MyWallapopTest {
 				// Ir al formulario de alta de oferta, rellenarla con datos válidos y pulsar el botón Submit.
 				//Comprobar que la oferta sale en el listado de ofertas de dicho usuario
 				@Test
-				public void PR16(){
+				public void PR14(){
 					//Entramos como usuario
 					PO_HomeView.clickElementId(driver, "identificarse");
 					PO_LoginView.fillForm(driver, "christian@email.com","123456");
@@ -385,7 +386,7 @@ public class MyWallapopTest {
 				//Ir al formulario de alta de oferta, rellenarla con datos inválidos (campo título vacío) y pulsar
 				//el botón Submit. Comprobar que se muestra el mensaje de campo obligatorio.
 				@Test
-				public void PR17(){
+				public void PR15(){
 					//Entramos como usuario
 					PO_HomeView.clickElementId(driver, "identificarse");
 					PO_LoginView.fillForm(driver, "christian@email.com","123456");
@@ -402,7 +403,7 @@ public class MyWallapopTest {
 				//Mostrar el listado de ofertas para dicho usuario y comprobar que se muestran todas los que
 				//existen para este usuario
 				@Test
-				public void PR18(){
+				public void PR16(){
 					//Entramos como usuario
 					PO_HomeView.clickElementId(driver, "identificarse");
 					PO_LoginView.fillForm(driver, "christian@email.com","123456");
@@ -420,7 +421,7 @@ public class MyWallapopTest {
 				//Ir a la lista de ofertas, borrar la primera oferta de la lista, comprobar que la lista se actualiza y
 				//que la oferta desaparece
 				@Test
-				public void PR19()
+				public void PR17()
 				{
 					//Entramos como usuario
 					PO_HomeView.clickElementId(driver, "identificarse");
@@ -443,7 +444,7 @@ public class MyWallapopTest {
 				//Ir a la lista de ofertas, borrar la última oferta de la lista, comprobar que la lista se actualiza y
 				//que la oferta desaparece
 				@Test
-				public void PR20()
+				public void PR18()
 				{
 					//Entramos como usuario
 					PO_HomeView.clickElementId(driver, "identificarse");
@@ -466,7 +467,7 @@ public class MyWallapopTest {
 				//Hacer una búsqueda con el campo vacío y comprobar que se muestra la página que
 				//corresponde con el listado de las ofertas existentes en el sistema
 				@Test
-				public void PR21()
+				public void PR19()
 				{
 					//Entramos como usuario
 					PO_HomeView.clickElementId(driver, "identificarse");
@@ -487,53 +488,132 @@ public class MyWallapopTest {
 				//Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se
 				//muestra la página que corresponde, con la lista de ofertas vacía.
 				@Test
-				public void PR22()
+				public void PR20()
 				{
 					//Entramos como usuario
-					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_HomeView.clickElementId(driver, "identificarse");
 					PO_LoginView.fillForm(driver, "christian@email.com","123456");
 					
 					//Seleccionamos 
-					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
-					elementos.get(0).click();
+					PO_HomeView.clickElementId(driver, "offers-menu");
+					PO_HomeView.clickElementId(driver, "btn_viewOffers");
 					
-					//Pinchamos en el botón ver lista de ofertas disponibles
-					elementos = PO_View.checkElement(driver, "id", "btn_viewOffers");
-					elementos.get(0).click();
 					
-					PO_ViewOffers.search(driver, "dsjvgsojhfbsdojf");
-					assertFalse(PO_ViewOffers.elementExistsName(driver, "title_value"));
+					PO_ViewOffers.search(driver, "QWEERTYGSFVS");
+					List<String> nombreOfertas=PO_ViewOffers.listNameOffers(driver);
+					
+					assertEquals(0,nombreOfertas.size());
 										
 				}
 				
 				@Test
-				public void PR23()
+				public void PR21()
 				{
 					//Entramos como usuario
-					PO_HomeView.clickOption(driver, "login",2, "class", "btn btn-primary");
+					PO_HomeView.clickElementId(driver, "identificarse");
 					PO_LoginView.fillForm(driver, "christian@email.com","123456");
 					
 					//Seleccionamos 
-					List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'users-menu')]/a");
-					elementos.get(0).click();
+					PO_HomeView.clickElementId(driver, "offers-menu");
+					PO_HomeView.clickElementId(driver, "btn_viewOffers");
 					
-					//Pinchamos en el botón ver lista de ofertas disponibles
-					elementos = PO_View.checkElement(driver, "id", "btn_viewOffers");
-					elementos.get(0).click();
 					
-					PO_ViewOffers.purchaseOffer(driver, "B3");
+					PO_ViewOffers.search(driver, "CH");
+					List<String> nombreOfertas=PO_ViewOffers.listNameOffers(driver);
 					
-					//Seleccionamos 
-					elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'profile-menu')]/a");
-					elementos.get(0).click();
+					assertEquals(4,nombreOfertas.size());
 					
-					//Pinchamos en el botón ver lista de ofertas disponibles
-					elementos = PO_View.checkElement(driver, "id", "btn_profile");
-					elementos.get(0).click();
+					PO_ViewOffers.search(driver, "ch");
+					nombreOfertas=PO_ViewOffers.listNameOffers(driver);
 					
-					elementos=PO_View.checkElement(driver, "id", "saldo_value");
-					
-					assertTrue(elementos.get(0).getText()=="0.0");
+					assertEquals(4,nombreOfertas.size());
 				}
 				
+				/*
+				 *  Sobre una búsqueda determinada (a elección de desarrollador), comprar una oferta que deja
+un saldo positivo en el contador del comprobador. Y comprobar que el contador se actualiza
+correctamente en la vista del comprador.
+				 */
+				@Test
+				public void PR22()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					PO_HomeView.clickElementId(driver, "offers-menu");
+					PO_HomeView.clickElementId(driver, "btn_viewOffers");
+
+					PO_ViewOffers.purchaseOffer(driver, "Oferta G2");
+
+					// Comprobamos el saldo
+					double saldo=PO_HomeView.getSaldo(driver);
+					assertEquals(24.5, saldo,0.1); // 100€-75.5€
+				}
+				
+				/*
+				 *  Sobre una búsqueda determinada (a elección de desarrollador), comprar una oferta que deja
+un saldo 0 en el contador del comprobador. Y comprobar que el contador se actualiza correctamente en
+la vista del comprador. 
+				 */
+				@Test
+				public void PR23()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					PO_HomeView.clickElementId(driver, "offers-menu");
+					PO_HomeView.clickElementId(driver, "btn_viewOffers");
+
+					PO_ViewOffers.purchaseOffer(driver, "Oferta E4");
+
+					// Comprobamos el saldo
+					double saldo=PO_HomeView.getSaldo(driver);
+					assertEquals(0, saldo,0.1); // 100€-100€
+				}
+				
+				/*
+				 * Sobre una búsqueda determinada (a elección de desarrollador), intentar comprar una oferta
+que esté por encima de saldo disponible del comprador. Y comprobar que se muestra el mensaje de
+saldo no suficiente.
+				 */
+				@Test
+				public void PR24()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					PO_HomeView.clickElementId(driver, "offers-menu");
+					PO_HomeView.clickElementId(driver, "btn_viewOffers");
+
+					PO_ViewOffers.purchaseOffer(driver, "Oferta E2");
+					
+					PO_HomeView.checkElement(driver, "id", "alert");
+				}
+				
+				/*
+				 * Ir a la opción de ofertas compradas del usuario y mostrar la lista. Comprobar que aparecen
+las ofertas que deben aparecer.
+				 */
+				@Test
+				public void PR25()
+				{
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginView.fillForm(driver, "christian@email.com","123456");
+					
+					//Seleccionamos 
+					PO_HomeView.clickElementId(driver, "personal-menu");
+					PO_HomeView.clickElementId(driver, "btn_purchased");
+					
+					int compradas=PO_Purchased.numCompradas(driver);
+					
+					
+					assertEquals(2,compradas);
+				}
 }

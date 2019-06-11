@@ -45,8 +45,6 @@ public class PO_ViewOffers extends PO_NavView{
 	static public void purchaseOffer(WebDriver driver,String title)
 	{
 		search(driver,title);
-		List<WebElement> paginas = PO_View.checkElement(driver, "@class", "page-link");
-		paginas.get(1).click();
 		List<WebElement> ofertas = PO_View.checkElement(driver, "@name", "btn_nopurchased");
 		ofertas.get(0).click();
 	}
