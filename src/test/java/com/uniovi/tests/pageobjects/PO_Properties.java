@@ -13,7 +13,7 @@ public class PO_Properties {
 		return ENGLISH;
 	}
 
-	static private String Path;
+	private String Path;
 	static int SPANISH = 0;
 	static int ENGLISH = 1;	
 	static Locale[] idioms = new Locale[] {new Locale("ES"), new Locale("EN")};

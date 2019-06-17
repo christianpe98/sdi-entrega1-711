@@ -3,12 +3,9 @@ package com.uniovi.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,9 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -32,15 +27,12 @@ import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginAPI;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_MyOffers;
-import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_OffersAPI;
-import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_Purchased;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_RemoveUsersView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.pageobjects.PO_ViewOffers;
-import com.uniovi.tests.util.SeleniumUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MyWallapopTest {
@@ -78,7 +70,6 @@ public class MyWallapopTest {
 		driver.navigate().to(URL);
 	}
 
-	@SuppressWarnings("serial")
 	public void initdb() {
 		driver.navigate().to(URL+"/reiniciarBBDD");
 		reiniciarEmails();
@@ -271,10 +262,7 @@ public class MyWallapopTest {
 		
 		// Mostrar el listado de usuarios y comprobar que se muestran todos los que existen en el sistema. 
 		@Test
-		public void PR10(){
-			//Conseguir usuarios de la base de datos
-			List<String> emailsBBDD=new ArrayList<>();
-			
+		public void PR10(){			
 			
 			//Entramos como administrador
 			PO_HomeView.clickElementId(driver, "identificarse");

@@ -1,12 +1,9 @@
 package com.uniovi.tests.pageobjects;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.uniovi.tests.util.SeleniumUtils;
 
 public class PO_ChatAPI  extends PO_View{
 
