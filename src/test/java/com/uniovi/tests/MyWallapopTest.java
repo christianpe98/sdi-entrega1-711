@@ -24,11 +24,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 //Ordenamos las pruebas por el nombre del método
 
+import com.uniovi.tests.pageobjects.PO_API;
 import com.uniovi.tests.pageobjects.PO_AddOfferView;
+import com.uniovi.tests.pageobjects.PO_ChatAPI;
+import com.uniovi.tests.pageobjects.PO_ConversacionesAPI;
 import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_LoginAPI;
 import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_MyOffers;
 import com.uniovi.tests.pageobjects.PO_NavView;
+import com.uniovi.tests.pageobjects.PO_OffersAPI;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_Purchased;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
@@ -56,6 +61,8 @@ public class MyWallapopTest {
 	static String URLremota = "https://urlsdispring:xxxx";
 	static String URL = URLlocal; // Se va a probar con la URL remota, sino URL=URLlocal
 
+	private static final String URL_CHAT="https://localhost:7081/cliente.html";
+	
 	private List<String> emailsUsuarios=new ArrayList<String>();
 	
 	public static WebDriver getDriver(String PathFirefox, String Geckdriver) {
@@ -100,6 +107,7 @@ public class MyWallapopTest {
 	@AfterClass
 	static public void end() {
 		// Cerramos el navegador al finalizar las pruebas
+		//driver.navigate().to(URL+"/reiniciarBBDD");
 		driver.quit();
 	}
 
@@ -616,4 +624,176 @@ las ofertas que deben aparecer.
 					
 					assertEquals(2,compradas);
 				}
+				
+				/*Inicio de sesión con datos válidos.*/
+				@Test
+				public void PR29()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "christian@email.com","123456");
+					
+					PO_HomeView.checkElement(driver,"id", "widget-ofertas");
+				}
+				
+				/*
+				 *  Inicio de sesión con datos inválidos (email existente, pero contraseña incorrecta).
+				 */
+				@Test
+				public void PR30()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "christian@email.com","7757357");
+					
+					PO_HomeView.checkElement(driver,"id", "alerta");
+				}
+				
+				/*
+				 *  Inicio de sesión con datos válidos (campo email o contraseña vacíos).
+				 */
+				@Test
+				public void PR31()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "","");
+					
+					PO_HomeView.checkElement(driver,"id", "alerta");
+				}
+				
+				/*
+				 * Mostrar el listado de ofertas disponibles y comprobar que se muestran todas las que existen,
+menos l				as del usuario identificado.
+				 */
+				@Test
+				public void PR32()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "christian@email.com","123456");
+					
+					PO_HomeView.checkElement(driver,"id", "widget-ofertas");
+					assertEquals(20-4, PO_OffersAPI.numOffers(driver));
+				}
+				
+				/*
+				 * Sobre una búsqueda determinada de ofertas (a elección de desarrollador), enviar un mensaje a
+					una oferta concreta. Se abriría dicha conversación por primera vez. Comprobar que el mensaje aparece
+					en el listado de mensajes
+				 */
+				@Test
+				public void PR33()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "christian@email.com","123456");
+					
+					PO_OffersAPI.chatOffer(driver,1); // oferta CR2
+					PO_ChatAPI.enviarMensaje(driver, "qwerty");
+					PO_ChatAPI.contieneMensaje(driver, "qwerty");
+					PO_API.desconectarse(driver);
+					
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "cristina@email.com","123456");
+					PO_OffersAPI.numOffers(driver);//La pagina cargue bien
+					PO_API.ventanaConversaciones(driver);
+					PO_ConversacionesAPI.abrirConversacion(driver,3); //conversacion Christian
+					PO_ChatAPI.contieneMensaje(driver, "qwerty");
+				}
+				
+				/*
+				 *  Sobre el listado de conversaciones enviar un mensaje a una conversación ya abierta.
+Comprobar que el mensaje aparece en el listado de mensajes.
+				 */
+				@Test
+				public void PR34()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "christian@email.com","123456");
+					
+					PO_OffersAPI.numOffers(driver);//La pagina cargue bien
+					PO_API.ventanaConversaciones(driver);
+					PO_ConversacionesAPI.abrirConversacion(driver,0);//CR1
+					PO_ChatAPI.enviarMensaje(driver, "123");
+					PO_ChatAPI.contieneMensaje(driver, "123");
+					
+					PO_API.desconectarse(driver);
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "cristina@email.com","123456");
+					
+					PO_OffersAPI.numOffers(driver);//La pagina cargue bien
+					PO_API.ventanaConversaciones(driver);
+					PO_ConversacionesAPI.abrirConversacion(driver,0);//CR1
+					PO_ChatAPI.contieneMensaje(driver, "123");
+					
+				}
+				
+				/*
+				 *  Mostrar el listado de conversaciones ya abiertas. Comprobar que el listado contiene las
+conversaciones que deben ser.
+				 */
+				@Test
+				public void PR35()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "christian@email.com","123456");
+					
+					PO_OffersAPI.numOffers(driver);//La pagina cargue bien
+					PO_API.ventanaConversaciones(driver);
+					assertEquals(3, PO_ConversacionesAPI.numConversaciones(driver));
+					
+				}
+				
+				/*
+				 * Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la primera y
+comprobar que el listado se actualiza correctamente.
+				 */
+				@Test
+				public void PR36()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "christian@email.com","123456");
+					
+					PO_OffersAPI.numOffers(driver);//La pagina cargue bien
+					PO_API.ventanaConversaciones(driver);
+					assertEquals(3, PO_ConversacionesAPI.numConversaciones(driver));
+					PO_ConversacionesAPI.eliminarConversacion(driver, 0);
+					PO_API.ventanaOfertas(driver); //hacer tiempo para que se elimine
+					PO_API.ventanaConversaciones(driver);
+					assertEquals(2, PO_ConversacionesAPI.numConversaciones(driver));
+				}
+				
+				/*
+				 * Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la última y
+					comprobar que el listado se actualiza correctamente.
+				 */
+				@Test
+				public void PR37()
+				{
+					driver.navigate().to(URL_CHAT);
+					//Entramos como usuario
+					PO_HomeView.clickElementId(driver, "identificarse");
+					PO_LoginAPI.fillForm(driver, "christian@email.com","123456");
+					
+					PO_OffersAPI.numOffers(driver);//La pagina cargue bien
+					PO_API.ventanaConversaciones(driver);
+					int numConversAntes=PO_ConversacionesAPI.numConversaciones(driver);
+					PO_ConversacionesAPI.eliminarConversacion(driver,2);
+					PO_API.ventanaOfertas(driver); //hacer tiempo para que se elimine
+					PO_API.ventanaConversaciones(driver);
+					assertEquals(numConversAntes-1, PO_ConversacionesAPI.numConversaciones(driver));
+				}
 }
+
